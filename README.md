@@ -4,7 +4,7 @@ mingus3
 ## What is this repository?
 
 This repository is a ported version of the discontinued project `mingus`. 
-Additionally, I plan on adding refactored to the original project to make it
+Additionally, I plan on refactoring the original project to make it
 usable for the modern age.
 
 ## License
