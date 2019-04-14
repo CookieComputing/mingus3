@@ -19,6 +19,7 @@
 
 from . import lilypond
 from .tunings import StringTuning
+
 __all__ = [
     'lilypond',
     'fft',
@@ -26,5 +27,4 @@ __all__ = [
     'tunings',
     'tablature',
     'StringTuning'
-    ]
-
+]

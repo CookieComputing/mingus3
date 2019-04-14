@@ -19,6 +19,7 @@
 
 from .sequencer import Sequencer
 from .sequencer_observer import SequencerObserver
+
 __all__ = [
     'Sequencer',
     'SequencerObserver',
@@ -26,4 +27,4 @@ __all__ = [
     'midi_file_out',
     'midi_track',
     'fluidsynth',
-    ]
+]

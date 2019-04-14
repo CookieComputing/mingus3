@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+
 sys.path += ['../']
 import mingus.extra.tablature as tablature
 import mingus.extra.tunings as tunings
@@ -18,5 +19,3 @@ class test_Tablature(unittest.TestCase):
 
 def suite():
     return unittest.TestLoader().loadTestsFromTestCase(test_Tablature)
-
-

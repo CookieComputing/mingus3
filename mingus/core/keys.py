@@ -22,28 +22,29 @@
 This module provides a simple interface for dealing with keys.
 """
 
-from .mt_exceptions import FormatError, NoteFormatError, RangeError
-from . import notes
 import operator
 from itertools import cycle, islice
 
+from . import notes
+from .mt_exceptions import NoteFormatError, RangeError
+
 keys = [
-        ('Cb', 'ab'), #  7 b
-        ('Gb', 'eb'), #  6 b
-        ('Db', 'bb'), #  5 b
-        ('Ab', 'f'),  #  4 b
-        ('Eb', 'c'),  #  3 b
-        ('Bb', 'g'),  #  2 b
-        ('F', 'd'),   #  1 b
-        ('C', 'a'),   #  nothing
-        ('G', 'e'),   #  1 #
-        ('D', 'b'),   #  2 #
-        ('A', 'f#'),  #  3 #
-        ('E', 'c#'),  #  4 #
-        ('B', 'g#'),  #  5 #
-        ('F#', 'd#'), #  6 #
-        ('C#', 'a#')  #  7 #
-        ]
+    ('Cb', 'ab'),  # 7 b
+    ('Gb', 'eb'),  # 6 b
+    ('Db', 'bb'),  # 5 b
+    ('Ab', 'f'),  # 4 b
+    ('Eb', 'c'),  # 3 b
+    ('Bb', 'g'),  # 2 b
+    ('F', 'd'),  # 1 b
+    ('C', 'a'),  # nothing
+    ('G', 'e'),  # 1 #
+    ('D', 'b'),  # 2 #
+    ('A', 'f#'),  # 3 #
+    ('E', 'c#'),  # 4 #
+    ('B', 'g#'),  # 5 #
+    ('F#', 'd#'),  # 6 #
+    ('C#', 'a#')  # 7 #
+]
 
 major_keys = [couple[0] for couple in keys]
 minor_keys = [couple[1] for couple in keys]
@@ -52,12 +53,14 @@ base_scale = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 
 _key_cache = {}
 
+
 def is_valid_key(key):
     """Return True if key is in a recognized format. False if not."""
     for couple in keys:
         if key in couple:
             return True
     return False
+
 
 def get_key(accidentals=0):
     """Return the key corrisponding to accidentals.
@@ -68,7 +71,8 @@ def get_key(accidentals=0):
     """
     if accidentals not in list(range(-7, 8)):
         raise RangeError('integer not in range (-7)-(+7).')
-    return keys[accidentals+7]
+    return keys[accidentals + 7]
+
 
 def get_key_signature(key='C'):
     """Return the key signature.
@@ -84,6 +88,7 @@ def get_key_signature(key='C'):
             accidentals = keys.index(couple) - 7
             return accidentals
 
+
 def get_key_signature_accidentals(key='C'):
     """Return the list of accidentals present into the key signature."""
     accidentals = get_key_signature(key)
@@ -96,6 +101,7 @@ def get_key_signature_accidentals(key='C'):
         for i in range(accidentals):
             res.append('{0}{1}'.format(notes.fifths[i], '#'))
     return res
+
 
 def get_notes(key='C'):
     """Return an ordered list of the notes in this natural key.
@@ -114,7 +120,7 @@ def get_notes(key='C'):
 
     # Calculate notes
     altered_notes = list(map(operator.itemgetter(0),
-            get_key_signature_accidentals(key)))
+                             get_key_signature_accidentals(key)))
 
     if get_key_signature(key) < 0:
         symbol = 'b'
@@ -123,15 +129,16 @@ def get_notes(key='C'):
 
     raw_tonic_index = base_scale.index(key.upper()[0])
 
-    for note in islice(cycle(base_scale), raw_tonic_index, raw_tonic_index+7):
+    for note in islice(cycle(base_scale), raw_tonic_index, raw_tonic_index + 7):
         if note in altered_notes:
             result.append('%s%s' % (note, symbol))
         else:
             result.append(note)
-    
+
     # Save result to cache
     _key_cache[key] = result
     return result
+
 
 def relative_major(key):
     """Return the relative major of a minor key.
@@ -145,6 +152,7 @@ def relative_major(key):
             return couple[0]
     raise NoteFormatError("'%s' is not a minor key" % key)
 
+
 def relative_minor(key):
     """Return the relative minor of a major key.
 
@@ -157,8 +165,8 @@ def relative_minor(key):
             return couple[1]
     raise NoteFormatError("'%s' is not a major key" % key)
 
-class Key(object):
 
+class Key(object):
     """A key object."""
 
     def __init__(self, key='C'):
@@ -168,7 +176,7 @@ class Key(object):
             self.mode = 'minor'
         else:
             self.mode = 'major'
-        
+
         try:
             symbol = self.key[1]
             if symbol == '#':
@@ -188,4 +196,3 @@ class Key(object):
 
     def __ne__(self, other):
         return not self.__eq__(other)
-

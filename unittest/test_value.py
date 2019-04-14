@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import mingus.core.value as value
 import unittest
+
+import mingus.core.value as value
 
 
 class test_value(unittest.TestCase):
@@ -38,13 +39,13 @@ class test_value(unittest.TestCase):
             self.assertEqual(value.determine(value.dots(x, 4)), (x, 4, 1, 1))
         for (s, x) in enumerate(value.base_triplets):
             self.assertEqual(value.determine(x), (value.base_values[s], 0, 3,
-                             2))
+                                                  2))
         for (s, x) in enumerate(value.base_quintuplets):
             self.assertEqual(value.determine(x), (value.base_values[s], 0, 5,
-                             4))
+                                                  4))
         for (s, x) in enumerate(value.base_septuplets):
             self.assertEqual(value.determine(x), (value.base_values[s], 0, 7,
-                             4))
+                                                  4))
 
     def test_determine_imperfect(self):
         self.assertEqual(value.determine(9), (8, 0, 1, 1))
@@ -91,5 +92,3 @@ class test_value(unittest.TestCase):
 
 def suite():
     return unittest.TestLoader().loadTestsFromTestCase(test_value)
-
-

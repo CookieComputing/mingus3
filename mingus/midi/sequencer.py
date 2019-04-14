@@ -30,8 +30,8 @@ attached to the Sequencer.
 
 from mingus.containers.instrument import MidiInstrument
 
-class Sequencer(object):
 
+class Sequencer(object):
     """A general purpose sequencer for the objects in mingus.containers.
 
     You can use the Sequencer object either by creating a subclass and
@@ -110,7 +110,8 @@ class Sequencer(object):
         """Set the channel to the instrument _instr_."""
         self.instr_event(channel, instr, bank)
         self.notify_listeners(self.MSG_INSTR, {'channel': int(channel),
-            'instr': int(instr), 'bank': int(bank)})
+                                               'instr': int(instr),
+                                               'bank': int(bank)})
 
     def control_change(self, channel, control, value):
         """Send a control change message.
@@ -123,7 +124,8 @@ class Sequencer(object):
             return False
         self.cc_event(channel, control, value)
         self.notify_listeners(self.MSG_CC, {'channel': int(channel),
-            'control': int(control), 'value': int(value)})
+                                            'control': int(control),
+                                            'value': int(value)})
         return True
 
     def play_Note(self, note, channel=1, velocity=100):
@@ -139,9 +141,11 @@ class Sequencer(object):
             channel = note.channel
         self.play_event(int(note) + 12, int(channel), int(velocity))
         self.notify_listeners(self.MSG_PLAY_INT, {'channel': int(channel),
-            'note': int(note) + 12, 'velocity': int(velocity)})
+                                                  'note': int(note) + 12,
+                                                  'velocity': int(velocity)})
         self.notify_listeners(self.MSG_PLAY_NOTE, {'channel': int(channel),
-            'note': note, 'velocity': int(velocity)})
+                                                   'note': note,
+                                                   'velocity': int(velocity)})
         return True
 
     def stop_Note(self, note, channel=1):
@@ -154,9 +158,9 @@ class Sequencer(object):
             channel = note.channel
         self.stop_event(int(note) + 12, int(channel))
         self.notify_listeners(self.MSG_STOP_INT, {'channel': int(channel),
-            'note': int(note) + 12})
+                                                  'note': int(note) + 12})
         self.notify_listeners(self.MSG_STOP_NOTE, {'channel': int(channel),
-            'note': note})
+                                                   'note': note})
         return True
 
     def stop_everything(self):
@@ -168,7 +172,8 @@ class Sequencer(object):
     def play_NoteContainer(self, nc, channel=1, velocity=100):
         """Play the Notes in the NoteContainer nc."""
         self.notify_listeners(self.MSG_PLAY_NC, {'notes': nc,
-            'channel': channel, 'velocity': velocity})
+                                                 'channel': channel,
+                                                 'velocity': velocity})
         if nc is None:
             return True
         for note in nc:
@@ -179,7 +184,7 @@ class Sequencer(object):
     def stop_NoteContainer(self, nc, channel=1):
         """Stop playing the notes in NoteContainer nc."""
         self.notify_listeners(self.MSG_PLAY_NC, {'notes': nc,
-            'channel': channel})
+                                                 'channel': channel})
         if nc is None:
             return True
         for note in nc:
@@ -197,7 +202,7 @@ class Sequencer(object):
         NoteContainer.
         """
         self.notify_listeners(self.MSG_PLAY_BAR, {'bar': bar, 'channel'
-                              : channel, 'bpm': bpm})
+        : channel, 'bpm': bpm})
 
         # length of a quarter note
         qn_length = 60.0 / bpm
@@ -223,11 +228,12 @@ class Sequencer(object):
         by providing one or more of the NoteContainers with a bpm argument.
         """
         self.notify_listeners(self.MSG_PLAY_BARS, {'bars': bars,
-            'channels': channels, 'bpm': bpm})
+                                                   'channels': channels,
+                                                   'bpm': bpm})
         qn_length = 60.0 / bpm  # length of a quarter note
         tick = 0.0  # place in beat from 0.0 to bar.length
         cur = [0] * len(bars)  # keeps the index of the NoteContainer under
-                               # investigation in each of the bars
+        # investigation in each of the bars
         playing = []  # The NoteContainers being played.
 
         while tick < bars[0].length:
@@ -296,7 +302,7 @@ class Sequencer(object):
     def play_Track(self, track, channel=1, bpm=120):
         """Play a Track object."""
         self.notify_listeners(self.MSG_PLAY_TRACK, {'track': track, 'channel'
-                              : channel, 'bpm': bpm})
+        : channel, 'bpm': bpm})
         for bar in track:
             res = self.play_Bar(bar, channel, bpm)
             if res != {}:
@@ -312,7 +318,8 @@ class Sequencer(object):
         set automatically.
         """
         self.notify_listeners(self.MSG_PLAY_TRACKS, {'tracks': tracks,
-            'channels': channels, 'bpm': bpm})
+                                                     'channels': channels,
+                                                     'bpm': bpm})
 
         # Set the right instruments
         for x in range(len(tracks)):
@@ -344,7 +351,9 @@ class Sequencer(object):
     def play_Composition(self, composition, channels=None, bpm=120):
         """Play a Composition object."""
         self.notify_listeners(self.MSG_PLAY_COMPOSITION, {'composition'
-                              : composition, 'channels': channels, 'bpm': bpm})
+                                                          : composition,
+                                                          'channels': channels,
+                                                          'bpm': bpm})
         if channels == None:
             channels = [x + 1 for x in range(len(composition.tracks))]
         return self.play_Tracks(composition.tracks, channels, bpm)
@@ -360,4 +369,3 @@ class Sequencer(object):
     def pan(self, channel, value):
         """Set the panning."""
         return self.control_change(channel, 10, value)
-

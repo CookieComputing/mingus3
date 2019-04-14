@@ -25,14 +25,15 @@ http://www.sonicspot.com/guide/midifiles.html
 """
 
 from binascii import a2b_hex
-from struct import pack, unpack
+from struct import pack
+
 from math import log
-from .midi_events import *
+
 from mingus.core.keys import Key, major_keys, minor_keys
-from mingus.containers.note import Note
+from .midi_events import *
+
 
 class MidiTrack(object):
-
     """A class used to generate MIDI events from the objects in
     mingus.containers."""
 
@@ -162,7 +163,7 @@ class MidiTrack(object):
         using get_midi_data).
         """
         chunk_size = a2b_hex('%08x' % (len(self.track_data)
-                              + len(self.end_of_track())))
+                                       + len(self.end_of_track())))
         return TRACK_HEADER + chunk_size
 
     def get_midi_data(self):
@@ -236,8 +237,8 @@ class MidiTrack(object):
         """Return a time signature event for meter."""
         numer = a2b_hex('%02x' % meter[0])
         denom = a2b_hex('%02x' % int(log(meter[1], 2)))
-        return self.delta_time + META_EVENT + TIME_SIGNATURE + '\x04' + numer\
-             + denom + '\x18\x08'
+        return self.delta_time + META_EVENT + TIME_SIGNATURE + '\x04' + numer \
+               + denom + '\x18\x08'
 
     def set_key(self, key='C'):
         """Add a key signature event to the track_data."""
@@ -257,7 +258,7 @@ class MidiTrack(object):
             val = 256 + val
         key = a2b_hex('%02x' % val)
         return '{0}{1}{2}\x02{3}{4}'.format(self.delta_time, META_EVENT,
-                KEY_SIGNATURE, key, mode)
+                                            KEY_SIGNATURE, key, mode)
 
     def set_track_name(self, name):
         """Add a meta event for the track."""
@@ -287,4 +288,3 @@ class MidiTrack(object):
         for i in range(len(bytes) - 1):
             bytes[i] = bytes[i] | 0x80
         return pack('%sB' % len(bytes), *bytes)
-

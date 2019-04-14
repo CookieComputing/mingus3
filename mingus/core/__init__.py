@@ -27,4 +27,4 @@ __all__ = [
     'progressions',
     'mt_exceptions',
     'value',
-    ]
+]

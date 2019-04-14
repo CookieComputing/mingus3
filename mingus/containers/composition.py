@@ -19,8 +19,8 @@
 
 from .mt_exceptions import UnexpectedObjectError
 
-class Composition(object):
 
+class Composition(object):
     """A composition object.
 
     The Composition class is a datastructure for working with Tracks.
@@ -60,7 +60,7 @@ class Composition(object):
         """
         if not hasattr(track, 'bars'):
             raise UnexpectedObjectError("Unexpected object '%s', "
-                    "expecting a mingus.containers.Track object" % track)
+                                        "expecting a mingus.containers.Track object" % track)
         self.tracks.append(track)
         self.selected_tracks = [len(self.tracks) - 1]
 
@@ -110,4 +110,3 @@ class Composition(object):
         for x in self.tracks:
             result += str(x)
         return result
-

@@ -1,9 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+
 sys.path = ['../'] + sys.path
 import mingus.core.chords as chords
-from mingus.core.mt_exceptions import RangeError, FormatError, NoteFormatError
+from mingus.core.mt_exceptions import FormatError, NoteFormatError
 import unittest
 
 
@@ -68,7 +69,7 @@ class test_chords(unittest.TestCase):
 
     def test_diminished_seventh(self):
         self.assertEqual(['C', 'Eb', 'Gb', 'Bbb'], chords.diminished_seventh('C'
-                         ))
+                                                                             ))
 
     def test_minor_major_seventh(self):
         self.assertEqual(['C', 'Eb', 'G', 'B'], chords.minor_major_seventh('C'))
@@ -85,97 +86,110 @@ class test_chords(unittest.TestCase):
 
     def test_tonic(self):
         tonic_dict = {'C': ['C', 'E', 'G'], 'E': ['E', 'G#', 'B'], 'B': ['B',
-                      'D#', 'F#']}
+                                                                         'D#',
+                                                                         'F#']}
         list(map(lambda x: self.assertEqual(chords.tonic(x), tonic_dict[x]),
-            list(tonic_dict.keys())))
+                 list(tonic_dict.keys())))
 
     def test_tonic7(self):
         tonic_dict = {'C': ['C', 'E', 'G', 'B'], 'E': ['E', 'G#', 'B', 'D#'],
                       'B': ['B', 'D#', 'F#', 'A#']}
         list(map(lambda x: self.assertEqual(chords.tonic7(x), tonic_dict[x]),
-            list(tonic_dict.keys())))
+                 list(tonic_dict.keys())))
 
     def test_dominant(self):
         tonic_dict = {'C': ['G', 'B', 'D'], 'E': ['B', 'D#', 'F#'], 'B': ['F#',
-                      'A#', 'C#']}
+                                                                          'A#',
+                                                                          'C#']}
         list(map(lambda x: self.assertEqual(chords.dominant(x), tonic_dict[x]),
-            list(tonic_dict.keys())))
+                 list(tonic_dict.keys())))
 
     def test_dominant7(self):
         tonic_dict = {'C': ['G', 'B', 'D', 'F'], 'E': ['B', 'D#', 'F#', 'A'],
                       'B': ['F#', 'A#', 'C#', 'E']}
         list(map(lambda x: self.assertEqual(chords.dominant7(x), tonic_dict[x]),
-            list(tonic_dict.keys())))
+                 list(tonic_dict.keys())))
 
     def test_subdominant(self):
         tonic_dict = {'C': ['F', 'A', 'C'], 'E': ['A', 'C#', 'E'], 'B': ['E',
-                      'G#', 'B']}
-        list(map(lambda x: self.assertEqual(chords.subdominant(x), tonic_dict[x]),
+                                                                         'G#',
+                                                                         'B']}
+        list(map(
+            lambda x: self.assertEqual(chords.subdominant(x), tonic_dict[x]),
             list(tonic_dict.keys())))
 
     def test_subdominant7(self):
         tonic_dict = {'C': ['F', 'A', 'C', 'E'], 'E': ['A', 'C#', 'E', 'G#'],
                       'B': ['E', 'G#', 'B', 'D#']}
-        list(map(lambda x: self.assertEqual(chords.subdominant7(x), tonic_dict[x]),
+        list(map(
+            lambda x: self.assertEqual(chords.subdominant7(x), tonic_dict[x]),
             list(tonic_dict.keys())))
 
     def test_submediant(self):
         tonic_dict = {'C': ['A', 'C', 'E'], 'E': ['C#', 'E', 'G#'], 'B': ['G#',
-                      'B', 'D#']}
-        list(map(lambda x: self.assertEqual(chords.submediant(x), tonic_dict[x]),
-            list(tonic_dict.keys())))
+                                                                          'B',
+                                                                          'D#']}
+        list(
+            map(lambda x: self.assertEqual(chords.submediant(x), tonic_dict[x]),
+                list(tonic_dict.keys())))
 
     def test_submediant7(self):
         tonic_dict = {'C': ['A', 'C', 'E', 'G'], 'E': ['C#', 'E', 'G#', 'B'],
                       'B': ['G#', 'B', 'D#', 'F#']}
-        list(map(lambda x: self.assertEqual(chords.submediant7(x), tonic_dict[x]),
+        list(map(
+            lambda x: self.assertEqual(chords.submediant7(x), tonic_dict[x]),
             list(tonic_dict.keys())))
 
     def test_supertonic(self):
         tonic_dict = {'C': ['D', 'F', 'A'], 'E': ['F#', 'A', 'C#'], 'B': ['C#',
-                      'E', 'G#']}
-        list(map(lambda x: self.assertEqual(chords.supertonic(x), tonic_dict[x]),
-            list(tonic_dict.keys())))
+                                                                          'E',
+                                                                          'G#']}
+        list(
+            map(lambda x: self.assertEqual(chords.supertonic(x), tonic_dict[x]),
+                list(tonic_dict.keys())))
 
     def test_supertonic7(self):
         tonic_dict = {'C': ['D', 'F', 'A', 'C'], 'E': ['F#', 'A', 'C#', 'E'],
                       'B': ['C#', 'E', 'G#', 'B']}
-        list(map(lambda x: self.assertEqual(chords.supertonic7(x), tonic_dict[x]),
+        list(map(
+            lambda x: self.assertEqual(chords.supertonic7(x), tonic_dict[x]),
             list(tonic_dict.keys())))
 
     def test_mediant(self):
         tonic_dict = {'C': ['E', 'G', 'B'], 'E': ['G#', 'B', 'D#'], 'B': ['D#',
-                      'F#', 'A#']}
+                                                                          'F#',
+                                                                          'A#']}
         list(map(lambda x: self.assertEqual(chords.mediant(x), tonic_dict[x]),
-            list(tonic_dict.keys())))
+                 list(tonic_dict.keys())))
 
     def test_mediant7(self):
         tonic_dict = {'C': ['E', 'G', 'B', 'D'], 'E': ['G#', 'B', 'D#', 'F#'],
                       'B': ['D#', 'F#', 'A#', 'C#']}
         list(map(lambda x: self.assertEqual(chords.mediant7(x), tonic_dict[x]),
-            list(tonic_dict.keys())))
+                 list(tonic_dict.keys())))
 
     def test_determine_triad(self):
         self.chordsTest([
             [['A minor triad', 'C major sixth, second inversion'], ['A', 'C',
-             'E']],
+                                                                    'E']],
             [['C major sixth', 'A minor triad, first inversion'], ['C', 'E', 'A'
-             ]],
+                                                                   ]],
             [['C major sixth, first inversion',
-             'A minor triad, second inversion'], ['E', 'A', 'C']],
+              'A minor triad, second inversion'], ['E', 'A', 'C']],
             [['C major triad'], ['C', 'E', 'G']],
             [['E diminished triad', 'G minor sixth, second inversion'], ['E',
-             'G', 'Bb']],
+                                                                         'G',
+                                                                         'Bb']],
             [['F augmented triad'], ['F', 'A', 'C#']],
             [['C suspended fourth triad',
-             'F suspended second triad, second inversion'], ['C', 'F', 'G']],
+              'F suspended second triad, second inversion'], ['C', 'F', 'G']],
             [['F suspended second triad',
-             'C suspended fourth triad, first inversion'], ['F', 'G', 'C']],
+              'C suspended fourth triad, first inversion'], ['F', 'G', 'C']],
             [['C suspended second triad',
-             'G suspended fourth triad, first inversion'], ['C', 'D', 'G']],
+              'G suspended fourth triad, first inversion'], ['C', 'D', 'G']],
             [['F suspended second triad, first inversion',
-             'C suspended fourth triad, second inversion'], ['G', 'C', 'F']],
-            ], chords.determine_triad, 'proper naming')
+              'C suspended fourth triad, second inversion'], ['G', 'C', 'F']],
+        ], chords.determine_triad, 'proper naming')
 
     def test_determine_triad_shorthand(self):
         self.chordsTest([
@@ -185,7 +199,7 @@ class test_chords(unittest.TestCase):
             [['Faug'], ['F', 'A', 'C#']],
             [['Csus4', 'Fsus2'], ['C', 'F', 'G']],
             [['Csus2', 'Gsus4'], ['C', 'D', 'G']],
-            ], lambda x: chords.determine_triad(x, True), 'proper naming')
+        ], lambda x: chords.determine_triad(x, True), 'proper naming')
 
     def test_determine_seventh(self):
         self.chordsTest([
@@ -194,7 +208,7 @@ class test_chords(unittest.TestCase):
             [['C major seventh, second inversion'], ['G', 'B', 'C', 'E']],
             [['C major seventh, third inversion'], ['B', 'C', 'E', 'G']],
             [['C minor seventh', 'Eb major sixth, third inversion'], ['C', 'Eb'
-             , 'G', 'Bb']],
+                , 'G', 'Bb']],
             [['C dominant seventh'], ['C', 'E', 'G', 'Bb']],
             [['C minor/major seventh'], ['C', 'Eb', 'G', 'B']],
             [['C half diminished seventh', 'Eb minor sixth, third inversion'],
@@ -206,36 +220,44 @@ class test_chords(unittest.TestCase):
             [['C minor sixth', 'A half diminished seventh, first inversion'],
              ['C', 'Eb', 'G', 'A']],
             [['C minor sixth, first inversion',
-             'A half diminished seventh, second inversion'], ['Eb', 'G', 'A',
-             'C']],
+              'A half diminished seventh, second inversion'], ['Eb', 'G', 'A',
+                                                               'C']],
             [['C minor sixth, second inversion',
-             'A half diminished seventh, third inversion'], ['G', 'A', 'C', 'Eb'
-             ]],
+              'A half diminished seventh, third inversion'],
+             ['G', 'A', 'C', 'Eb'
+              ]],
             [['A half diminished seventh', 'C minor sixth, third inversion'],
              ['A', 'C', 'Eb', 'G']],
-            ], chords.determine_seventh, 'proper naming')
+        ], chords.determine_seventh, 'proper naming')
 
     def test_determine_seventh_shorthand(self):
         self.chordsTest([[['Am7', 'CM6', 'CM|Am'], ['A', 'C', 'E', 'G']],
-                        [['CM7', 'Em|CM'], ['C', 'E', 'G', 'B']], [['CM7'], ['E'
-                        , 'G', 'B', 'C']], [['Fm/M7', 'Abaug|Fm'], ['F', 'Ab',
-                        'C', 'E']]], lambda x: chords.determine_seventh(x,
-                        True), 'proper naming')
+                         [['CM7', 'Em|CM'], ['C', 'E', 'G', 'B']],
+                         [['CM7'], ['E'
+                             , 'G', 'B', 'C']],
+                         [['Fm/M7', 'Abaug|Fm'], ['F', 'Ab',
+                                                  'C', 'E']]],
+                        lambda x: chords.determine_seventh(x,
+                                                           True),
+                        'proper naming')
 
     def chordsTest(
-        self,
-        values,
-        what_func,
-        what_desc,
-        ):
+            self,
+            values,
+            what_func,
+            what_desc,
+    ):
         list(map(lambda x: [self.assertTrue(y in what_func(x[1]),
-            "The %s '%s' should be in '%s', but is not." % (what_desc, y,
-            what_func(x[1]))) for y in x[0]], values))
+                                            "The %s '%s' should be in '%s', but is not." % (
+                                                what_desc, y,
+                                                what_func(x[1]))) for y in
+                            x[0]],
+                 values))
 
     def test_from_shorthand(self):
         answers = {  # Triads Augmented Sevenths Sixths 6/9 Slash chords
-                     # Suspended chords 9 11 13 Altered chords Special Poly
-                     # chords
+            # Suspended chords 9 11 13 Altered chords Special Poly
+            # chords
             'Amin': ['A', 'C', 'E'],
             'Am': ['A', 'C', 'E'],
             'A-': ['A', 'C', 'E'],
@@ -294,7 +316,7 @@ class test_chords(unittest.TestCase):
                 'G#',
                 'B',
                 'F#',
-                ],
+            ],
             'A13': [
                 'A',
                 'C#',
@@ -302,7 +324,7 @@ class test_chords(unittest.TestCase):
                 'G',
                 'B',
                 'F#',
-                ],
+            ],
             'Am13': [
                 'A',
                 'C',
@@ -310,7 +332,7 @@ class test_chords(unittest.TestCase):
                 'G',
                 'B',
                 'F#',
-                ],
+            ],
             'A7b9': ['A', 'C#', 'E', 'G', 'Bb'],
             'A7#9': ['A', 'C#', 'E', 'G', 'B#'],
             'A7b5': ['A', 'C#', 'Eb', 'G'],
@@ -328,7 +350,7 @@ class test_chords(unittest.TestCase):
                 'F',
                 'A',
                 'C',
-                ],
+            ],
             'Am7|G7': [
                 'G',
                 'B',
@@ -338,11 +360,15 @@ class test_chords(unittest.TestCase):
                 'C',
                 'E',
                 'G',
-                ],
-            }
-        list(map(lambda x: self.assertEqual(answers[x], chords.from_shorthand(x),
-            'The shorthand of %s is not %s, expecting %s' % (x,
-            chords.from_shorthand(x), answers[x])), list(answers.keys())))
+            ],
+        }
+        list(
+            map(lambda x: self.assertEqual(answers[x], chords.from_shorthand(x),
+                                           'The shorthand of %s is not %s, expecting %s' % (
+                                               x,
+                                               chords.from_shorthand(x),
+                                               answers[x])),
+                list(answers.keys())))
 
     def test_malformed_from_shorthand(self):
         for x in ['Bollocks', 'Asd', 'Bbasd@#45']:
@@ -351,14 +377,24 @@ class test_chords(unittest.TestCase):
 
     def test_determine(self):
         list(map(lambda x: self.assertEqual(True,
-            chords.determine(chords.from_shorthand('C' + x)) != [],
-            "'C%s' should return a value" % x), list(chords.chord_shorthand.keys())))
-        list(map(lambda x: self.assertEqual('C' + chords.chord_shorthand_meaning[x],
-            chords.determine(chords.from_shorthand('C' + x))[0],
-            "The proper naming of '%s' is not '%s',expecting '%s'" % ('C' + x,
-            chords.determine(chords.from_shorthand('C' + x)), 'C'
-             + chords.chord_shorthand_meaning[x])), [x for x in
-            list(chords.chord_shorthand.keys()) if x != '5']))
+                                            chords.determine(
+                                                chords.from_shorthand(
+                                                    'C' + x)) != [],
+                                            "'C%s' should return a value" % x),
+                 list(chords.chord_shorthand.keys())))
+        list(map(
+            lambda x: self.assertEqual('C' + chords.chord_shorthand_meaning[x],
+                                       chords.determine(
+                                           chords.from_shorthand('C' + x))[0],
+                                       "The proper naming of '%s' is not '%s',expecting '%s'" % (
+                                           'C' + x,
+                                           chords.determine(
+                                               chords.from_shorthand('C' + x)),
+                                           'C'
+                                           + chords.chord_shorthand_meaning[
+                                               x])),
+            [x for x in
+             list(chords.chord_shorthand.keys()) if x != '5']))
         self.chordsTest([[['A13'], [
             'A',
             'C#',
@@ -367,7 +403,7 @@ class test_chords(unittest.TestCase):
             'B',
             'D',
             'F#',
-            ]], [['Am13'], [
+        ]], [['Am13'], [
             'A',
             'C',
             'E',
@@ -375,7 +411,7 @@ class test_chords(unittest.TestCase):
             'B',
             'D',
             'F#',
-            ]], [['AM13'], [
+        ]], [['AM13'], [
             'A',
             'C#',
             'E',
@@ -383,7 +419,7 @@ class test_chords(unittest.TestCase):
             'B',
             'D',
             'F#',
-            ]]], lambda x: chords.determine(x, True), 'chord name')
+        ]]], lambda x: chords.determine(x, True), 'chord name')
 
     def test_determine_polychord(self):
         self.chordsTest([  # insano test
@@ -396,7 +432,7 @@ class test_chords(unittest.TestCase):
                 'F',
                 'A',
                 'C',
-                ]],
+            ]],
             [['Am|G7'], [
                 'G',
                 'B',
@@ -405,7 +441,7 @@ class test_chords(unittest.TestCase):
                 'A',
                 'C',
                 'E',
-                ]],
+            ]],
             [['Am7|G7'], [
                 'G',
                 'B',
@@ -415,7 +451,7 @@ class test_chords(unittest.TestCase):
                 'C',
                 'E',
                 'G',
-                ]],
+            ]],
             [['CM9|CM'], [
                 'C',
                 'E',
@@ -425,7 +461,7 @@ class test_chords(unittest.TestCase):
                 'G',
                 'B',
                 'D',
-                ]],
+            ]],
             [['CM9|CM7'], [
                 'C',
                 'E',
@@ -436,7 +472,7 @@ class test_chords(unittest.TestCase):
                 'G',
                 'B',
                 'D',
-                ]],
+            ]],
             [['A13|G13'], [
                 'G',
                 'B',
@@ -452,12 +488,10 @@ class test_chords(unittest.TestCase):
                 'B',
                 'D',
                 'F#',
-                ]],
-            ], lambda x: chords.determine_polychords(x, True),
-                'polychord naming')
+            ]],
+        ], lambda x: chords.determine_polychords(x, True),
+            'polychord naming')
 
 
 def suite():
     return unittest.TestLoader().loadTestsFromTestCase(test_chords)
-
-

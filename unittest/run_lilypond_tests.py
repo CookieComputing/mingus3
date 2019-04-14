@@ -20,6 +20,8 @@
 """Separated LilyPond tests."""
 
 import unittest
+
 import test_lilypond
+
 suite = unittest.TestSuite([test_lilypond.suite()])
 unittest.TextTestRunner(verbosity=2).run(suite)

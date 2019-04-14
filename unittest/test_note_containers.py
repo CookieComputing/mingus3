@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+
 sys.path += ['../']
 from mingus.containers.note_container import NoteContainer
 from mingus.containers.note import Note
@@ -21,7 +22,7 @@ class test_NoteContainers(unittest.TestCase):
             'F',
             'G',
             'A',
-            ])
+        ])
 
     def test_add_note(self):
         self.assertEqual(self.n2, self.n2.add_note('A'))
@@ -35,7 +36,7 @@ class test_NoteContainers(unittest.TestCase):
         self.assertEqual(self.n3, self.n1.add_notes(['A', 'C', 'E']))
         self.n1.empty()
         self.assertEqual(self.n3, self.n1.add_notes([['A', 4], ['C', 5], ['E',
-                         5]]))
+                                                                          5]]))
         self.n1.empty()
         self.assertEqual(self.n2, self.n1.add_notes(Note('A')))
         self.n1.empty()
@@ -84,7 +85,7 @@ class test_NoteContainers(unittest.TestCase):
         self.assertEqual(NoteContainer(['E', 'G#', 'B']), n.transpose('3'))
         n = NoteContainer(['C-6', 'E-4', 'G-2'])
         self.assertEqual(NoteContainer(['E-6', 'G#-4', 'B-2']), n.transpose('3'
-                         ))
+                                                                            ))
 
     def test_get_note_names(self):
         self.assertEqual(['A', 'C', 'E'], self.n3.get_note_names())
@@ -103,7 +104,7 @@ class test_NoteContainers(unittest.TestCase):
                          NoteContainer().from_interval_shorthand('C', '5'))
         self.assertEqual(NoteContainer(['F-3', 'C-4']),
                          NoteContainer().from_interval_shorthand('C', '5',
-                         False))
+                                                                 False))
 
     def test_is_consonant(self):
         self.assertTrue(NoteContainer().from_chord('Am').is_consonant())
@@ -119,14 +120,18 @@ class test_NoteContainers(unittest.TestCase):
         self.assertTrue(NoteContainer(['A', 'E']).is_perfect_consonant())
         self.assertTrue(NoteContainer(['A-4', 'A-6']).is_perfect_consonant())
         self.assertTrue(NoteContainer(['A', 'D']).is_perfect_consonant())
-        self.assertTrue(not NoteContainer(['A', 'D']).is_perfect_consonant(False))
+        self.assertTrue(
+            not NoteContainer(['A', 'D']).is_perfect_consonant(False))
         self.assertTrue(not NoteContainer().from_chord('Am'
-                     ).is_perfect_consonant())
-        self.assertTrue(not NoteContainer().from_chord('C').is_perfect_consonant())
-        self.assertTrue(not NoteContainer().from_chord('G').is_perfect_consonant())
+                                                       ).is_perfect_consonant())
+        self.assertTrue(
+            not NoteContainer().from_chord('C').is_perfect_consonant())
+        self.assertTrue(
+            not NoteContainer().from_chord('G').is_perfect_consonant())
         self.assertTrue(not NoteContainer().from_chord('Dm'
-                     ).is_perfect_consonant())
-        self.assertTrue(not NoteContainer().from_chord('E').is_perfect_consonant())
+                                                       ).is_perfect_consonant())
+        self.assertTrue(
+            not NoteContainer().from_chord('E').is_perfect_consonant())
 
     def test_is_imperfect_consonant(self):
         self.assertTrue(NoteContainer(['A', 'C']).is_imperfect_consonant())
@@ -135,7 +140,8 @@ class test_NoteContainers(unittest.TestCase):
         self.assertTrue(NoteContainer(['A', 'F#']).is_imperfect_consonant())
         self.assertTrue(not NoteContainer(['A', 'B']).is_imperfect_consonant())
         self.assertTrue(not NoteContainer(['A', 'E']).is_imperfect_consonant())
-        self.assertTrue(not NoteContainer(['A-4', 'A-5']).is_imperfect_consonant())
+        self.assertTrue(
+            not NoteContainer(['A-4', 'A-5']).is_imperfect_consonant())
 
     def test_is_dissonant(self):
         self.assertTrue(NoteContainer().from_chord('E7').is_dissonant())
@@ -149,5 +155,3 @@ class test_NoteContainers(unittest.TestCase):
 
 def suite():
     return unittest.TestLoader().loadTestsFromTestCase(test_NoteContainers)
-
-

@@ -1,12 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+
 sys.path += ['../']
 from mingus.midi import fluidsynth
 from mingus.containers import *
 import unittest
 import time
 from mingus.midi.sequencer_observer import SequencerObserver
+
 
 class test_fluidsynth(unittest.TestCase):
 
@@ -52,12 +54,15 @@ class test_fluidsynth(unittest.TestCase):
         fluidsynth.stop_Note(Note('C'))
 
     def test_playnotecontainer(self):
-        self.assertTrue(fluidsynth.play_NoteContainer(NoteContainer(['C', 'E', 'G'
-                     ]), 0))
+        self.assertTrue(
+            fluidsynth.play_NoteContainer(NoteContainer(['C', 'E', 'G'
+                                                         ]), 0))
         time.sleep(0.25)
         fluidsynth.stop_NoteContainer(NoteContainer(['C', 'E', 'G']), 0)
         self.assertTrue(fluidsynth.play_NoteContainer(NoteContainer(['E', 'G',
-                     Note('C', 6)]), 0))
+                                                                     Note('C',
+                                                                          6)]),
+                                                      0))
         time.sleep(0.25)
         fluidsynth.stop_NoteContainer(NoteContainer(['E', 'G', Note('C', 6)]),
                                       0)
@@ -171,4 +176,3 @@ class test_fluidsynth(unittest.TestCase):
 
 def suite():
     return unittest.TestLoader().loadTestsFromTestCase(test_fluidsynth)
-

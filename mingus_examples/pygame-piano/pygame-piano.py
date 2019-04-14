@@ -38,12 +38,15 @@
 
 """
 
+from os import sys
+
 import pygame
 from pygame.locals import *
-from mingus.core import notes, chords
+
 from mingus.containers import *
+from mingus.core import chords
 from mingus.midi import fluidsynth
-from os import sys
+
 SF2 = 'soundfont.sf2'
 OCTAVES = 5  # number of octaves to show
 LOWEST = 2  # lowest octave to show
@@ -58,7 +61,7 @@ WHITE_KEYS = [
     'G',
     'A',
     'B',
-    ]
+]
 BLACK_KEYS = ['C#', 'D#', 'F#', 'G#', 'A#']
 
 

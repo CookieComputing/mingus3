@@ -18,21 +18,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class NoteFormatError(Exception):
-
     pass
 
 
 class UnexpectedObjectError(Exception):
-
     pass
 
 
 class MeterFormatError(Exception):
-
     pass
 
 
 class InstrumentRangeError(Exception):
-
     pass
-

@@ -20,11 +20,12 @@
 """Functions that can generate MIDI files from the objects in
 mingus.containers."""
 
-from .midi_track import MidiTrack
 from binascii import a2b_hex
 
-class MidiFile(object):
+from .midi_track import MidiTrack
 
+
+class MidiFile(object):
     """A class that generates MIDI files from MidiTracks."""
 
     tracks = []
@@ -42,7 +43,7 @@ class MidiFile(object):
     def header(self):
         """Return a header for type 1 MIDI file."""
         tracks = a2b_hex('%04x' % len([t for t in self.tracks if
-            t.track_data != '']))
+                                       t.track_data != '']))
         return 'MThd\x00\x00\x00\x06\x00\x01' + tracks + self.time_division
 
     def reset(self):
@@ -85,6 +86,7 @@ def write_Note(file, note, bpm=120, repeat=0, verbose=False):
         repeat -= 1
     return m.write_file(file, verbose)
 
+
 def write_NoteContainer(file, notecontainer, bpm=120, repeat=0, verbose=False):
     """Write a mingus.NoteContainer to a MIDI file."""
     m = MidiFile()
@@ -98,6 +100,7 @@ def write_NoteContainer(file, notecontainer, bpm=120, repeat=0, verbose=False):
         repeat -= 1
     return m.write_file(file, verbose)
 
+
 def write_Bar(file, bar, bpm=120, repeat=0, verbose=False):
     """Write a mingus.Bar to a MIDI file.
 
@@ -110,6 +113,7 @@ def write_Bar(file, bar, bpm=120, repeat=0, verbose=False):
         t.play_Bar(bar)
         repeat -= 1
     return m.write_file(file, verbose)
+
 
 def write_Track(file, track, bpm=120, repeat=0, verbose=False):
     """Write a mingus.Track to a MIDI file.
@@ -127,6 +131,7 @@ def write_Track(file, track, bpm=120, repeat=0, verbose=False):
         repeat -= 1
     return m.write_file(file, verbose)
 
+
 def write_Composition(file, composition, bpm=120, repeat=0, verbose=False):
     """Write a mingus.Composition to a MIDI file."""
     m = MidiFile()
@@ -140,11 +145,13 @@ def write_Composition(file, composition, bpm=120, repeat=0, verbose=False):
         repeat -= 1
     return m.write_file(file, verbose)
 
+
 if __name__ == '__main__':
     from mingus.containers.NoteContainer import NoteContainer
     from mingus.containers.Bar import Bar
     from mingus.containers.Track import Track
     from mingus.containers.Instrument import MidiInstrument
+
     b = Bar()
     b2 = Bar('Ab', (3, 4))
     n = NoteContainer(['A', 'C', 'E'])
@@ -167,4 +174,3 @@ if __name__ == '__main__':
     write_Bar('test3.mid', b, 200)
     write_Bar('test4.mid', b2, 200, 2)
     write_Track('test5.mid', t, 120)
-

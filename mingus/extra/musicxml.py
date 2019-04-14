@@ -30,16 +30,16 @@ and is supported by over 100 applications.
 http://www.musicxml.org/xml.html
 """
 
-import xml
-from xml.dom.minidom import Document
-from mingus.core import notes
-from mingus.core.keys import major_keys, minor_keys
-from mingus.containers.instrument import MidiInstrument
-from mingus.containers.composition import Composition
-from mingus.containers.track import Track
-from mingus.core import value
 import datetime
 from functools import reduce
+from xml.dom.minidom import Document
+
+from mingus.containers.composition import Composition
+from mingus.containers.instrument import MidiInstrument
+from mingus.containers.track import Track
+from mingus.core import value
+from mingus.core.keys import major_keys, minor_keys
+
 
 def _gcd(a=None, b=None, terms=None):
     """Return greatest common divisor using Euclid's Algorithm."""
@@ -50,12 +50,14 @@ def _gcd(a=None, b=None, terms=None):
             (a, b) = (b, a % b)
         return a
 
+
 def _lcm(a=None, b=None, terms=None):
     """Return lowest common multiple."""
     if terms:
         return reduce(lambda a, b: _lcm(a, b), terms)
     else:
         return (a * b) / _gcd(a, b)
+
 
 def _note2musicxml(note):
     doc = Document()
@@ -87,6 +89,7 @@ def _note2musicxml(note):
             pitch.appendChild(alter)
         note_node.appendChild(pitch)
     return note_node
+
 
 def _bar2musicxml(bar):
     doc = Document()
@@ -143,7 +146,7 @@ def _bar2musicxml(bar):
             # convert the duration of the note
             duration = doc.createElement('duration')
             duration.appendChild(doc.createTextNode(str(int(lcm * (4.0
-                                  / beat)))))
+                                                                   / beat)))))
             note.appendChild(duration)
 
             # check for dots
@@ -167,6 +170,7 @@ def _bar2musicxml(bar):
                 note.appendChild(modification)
             bar_node.appendChild(note)
     return bar_node
+
 
 def _track2musicxml(track):
     doc = Document()
@@ -210,6 +214,7 @@ def _track2musicxml(track):
         track_node.appendChild(bar)
         counter += 1
     return track_node
+
 
 def _composition2musicxml(comp):
     doc = Document()
@@ -268,8 +273,8 @@ def _composition2musicxml(comp):
                 midi.setAttribute('id', str(id(t.instrument)))
                 channel = doc.createElement('midi-channel')
                 channel.appendChild(doc.createTextNode(str(1)))  # what about
-                                                                 # the MIDI
-                                                                 # channels?
+                # the MIDI
+                # channels?
                 program = doc.createElement('midi-program')
                 program.appendChild(doc.createTextNode(
                     str(t.instrument.instrument_nr)))
@@ -281,10 +286,12 @@ def _composition2musicxml(comp):
         score.appendChild(track)
     return score
 
+
 def from_Note(note):
     c = Composition()
     c.add_note(note)
     return _composition2musicxml(c).toprettyxml()
+
 
 def from_Bar(bar):
     c = Composition()
@@ -293,13 +300,16 @@ def from_Bar(bar):
     c.add_track(t)
     return _composition2musicxml(c).toprettyxml()
 
+
 def from_Track(track):
     c = Composition()
     c.add_track(track)
     return _composition2musicxml(c).toprettyxml()
 
+
 def from_Composition(comp):
     return _composition2musicxml(comp).toprettyxml()
+
 
 def write_Composition(composition, filename, zip=False):
     """Create an XML file (or MXL if compressed) for a given composition."""
@@ -323,4 +333,3 @@ def write_Composition(composition, filename, zip=False):
         zi.external_attr = 0o660 << 16
         zf.writestr(zi, text)
         zf.close()
-

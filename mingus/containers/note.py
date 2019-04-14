@@ -17,12 +17,13 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from mingus.core import notes, intervals
-from .mt_exceptions import NoteFormatError
 from math import log
 
-class Note(object):
+from mingus.core import notes, intervals
+from .mt_exceptions import NoteFormatError
 
+
+class Note(object):
     """A note object.
 
     In the mingus.core module, notes are generally represented by strings.
@@ -58,15 +59,14 @@ class Note(object):
             self.from_int(name)
         else:
             raise NoteFormatError("Don't know what to do with name object: "
-                    "'%s'" % name)
+                                  "'%s'" % name)
 
-    
     def set_channel(self, channel):
         self.channel = channel
-        
+
     def set_velocity(self, velocity):
         self.velocity = velocity
-    
+
     def set_note(self, name='C', octave=4, dynamics={}):
         """Set the note to name in octave with dynamics.
 
@@ -82,7 +82,7 @@ class Note(object):
                 return self
             else:
                 raise NoteFormatError("The string '%s' is not a valid "
-                        "representation of a note in mingus" % name)
+                                      "representation of a note in mingus" % name)
         elif len(dash_index) == 2:
             if notes.is_valid_note(dash_index[0]):
                 self.name = dash_index[0]
@@ -91,7 +91,7 @@ class Note(object):
                 return self
             else:
                 raise NoteFormatError("The string '%s' is not a valid "
-                        "representation of a note in mingus" % name)
+                                      "representation of a note in mingus" % name)
         return False
 
     def empty(self):
@@ -188,7 +188,7 @@ class Note(object):
         from which the rest is calculated.
         """
         value = ((log((float(hertz) * 1024) / standard_pitch, 2) +
-            1.0 / 24) * 12 + 9)  # notes.note_to_int("A")
+                  1.0 / 24) * 12 + 9)  # notes.note_to_int("A")
         self.name = notes.int_to_note(int(value) % 12)
         self.octave = int(value / 12) - 6
         return self
@@ -287,7 +287,7 @@ class Note(object):
         return not self == other
 
     def __gt__(self, other):
-        return not(self < other or self == other)
+        return not (self < other or self == other)
 
     def __le__(self, other):
         return self < other or self == other
@@ -298,4 +298,3 @@ class Note(object):
     def __repr__(self):
         """Return a helpful representation for printing Note classes."""
         return "'%s-%d'" % (self.name, self.octave)
-

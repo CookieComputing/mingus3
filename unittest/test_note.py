@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+
 sys.path += ['../']
 from mingus.containers.note import Note
 import unittest
@@ -117,5 +118,3 @@ class test_Note(unittest.TestCase):
 
 def suite():
     return unittest.TestLoader().loadTestsFromTestCase(test_Note)
-
-

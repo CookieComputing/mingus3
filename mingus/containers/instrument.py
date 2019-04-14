@@ -20,8 +20,8 @@
 from mingus.containers.note import Note
 from .mt_exceptions import UnexpectedObjectError
 
-class Instrument(object):
 
+class Instrument(object):
     """An instrument object.
 
     The Instrument class is pretty self explanatory. Instruments can be used
@@ -51,7 +51,8 @@ class Instrument(object):
             range[1] = Note(range[1])
         if not hasattr(range[0], 'name'):
             raise UnexpectedObjectError("Unexpected object '%s'. "
-                    "Expecting a mingus.containers.Note object" % range[0])
+                                        "Expecting a mingus.containers.Note object" %
+                                        range[0])
         self.range = range
 
     def note_in_range(self, note):
@@ -63,7 +64,7 @@ class Instrument(object):
             note = Note(note)
         if not hasattr(note, 'name'):
             raise UnexpectedObjectError("Unexpected object '%s'. "
-                    "Expecting a mingus.containers.Note object" % note)
+                                        "Expecting a mingus.containers.Note object" % note)
         if note >= self.range[0] and note <= self.range[1]:
             return True
         return False
@@ -92,7 +93,6 @@ class Instrument(object):
 
 
 class Piano(Instrument):
-
     name = 'Piano'
     range = (Note('F', 0), Note('B', 8))
 
@@ -101,7 +101,6 @@ class Piano(Instrument):
 
 
 class Guitar(Instrument):
-
     name = 'Guitar'
     range = (Note('E', 3), Note('E', 7))
     clef = 'Treble'
@@ -116,7 +115,6 @@ class Guitar(Instrument):
 
 
 class MidiInstrument(Instrument):
-
     range = (Note('C', 0), Note('B', 8))
     instrument_nr = 1
     name = ''
@@ -249,10 +247,11 @@ class MidiInstrument(Instrument):
         'Helicopter',
         'Applause',
         'Gunshot',
-        ]
+    ]
 
     def __init__(self, name=''):
         self.name = name
+
 
 class MidiPercussionInstrument(Instrument):
     def __init__(self):
@@ -448,4 +447,3 @@ class MidiPercussionInstrument(Instrument):
 
     def open_triangle(self):
         return Note(81 - 12)
-

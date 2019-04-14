@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+
 sys.path += ['../']
 import unittest
 import mingus.extra.lilypond as LilyPond
@@ -10,6 +11,7 @@ from mingus.containers.note_container import NoteContainer
 from mingus.containers.bar import Bar
 from mingus.containers.track import Track
 from mingus.containers.composition import Composition
+
 
 class test_LilyPond(unittest.TestCase):
 
@@ -31,10 +33,12 @@ class test_LilyPond(unittest.TestCase):
             'B',
             'C',
             'E',
-            ]))
-        list(map(lambda x: self.mbar.place_notes(NoteContainer(x), 4), ['C', 'E']))
-        list(map(lambda x: self.mbar.place_notes(NoteContainer(x), 6), ['G', 'B', 'C'
-            ]))
+        ]))
+        list(map(lambda x: self.mbar.place_notes(NoteContainer(x), 4),
+                 ['C', 'E']))
+        list(map(lambda x: self.mbar.place_notes(NoteContainer(x), 6),
+                 ['G', 'B', 'C'
+                  ]))
         self.track1 = Track()
         self.track1 + self.commonbar
         self.track2 = Track()
@@ -75,26 +79,31 @@ class test_LilyPond(unittest.TestCase):
 
     def test_from_NoteContainer(self):
         self.assertEqual(LilyPond.from_NoteContainer(NoteContainer('C'),
-                         standalone=False), "c'")
+                                                     standalone=False), "c'")
         self.assertEqual(LilyPond.from_NoteContainer(NoteContainer('C'), 4,
-                         standalone=False), "c'4")
+                                                     standalone=False), "c'4")
         self.assertEqual(LilyPond.from_NoteContainer(NoteContainer(['C', 'E']),
-                         standalone=False), "<c' e'>")
+                                                     standalone=False),
+                         "<c' e'>")
         self.assertEqual(LilyPond.from_NoteContainer(NoteContainer(['C', 'E']),
-                         4, standalone=False), "<c' e'>4")
+                                                     4, standalone=False),
+                         "<c' e'>4")
 
         # issue #37
 
         self.assertEqual(LilyPond.from_NoteContainer(NoteContainer('C'), 16,
-                         standalone=False), "c'16")
+                                                     standalone=False), "c'16")
         self.assertEqual(LilyPond.from_NoteContainer(NoteContainer('C'), 16.0,
-                         standalone=False), "c'16")
+                                                     standalone=False), "c'16")
         self.assertEqual(LilyPond.from_NoteContainer(NoteContainer('C'),
-                         value.dots(16), standalone=False), "c'16.")
+                                                     value.dots(16),
+                                                     standalone=False), "c'16.")
         self.assertEqual(LilyPond.from_NoteContainer(NoteContainer('C'), 0.25,
-                         standalone=False), "c'\\longa")
+                                                     standalone=False),
+                         "c'\\longa")
         self.assertEqual(LilyPond.from_NoteContainer(NoteContainer('C'), 0.5,
-                         standalone=False), "c'\\breve")
+                                                     standalone=False),
+                         "c'\\breve")
 
     def test_from_Bar(self):
         self.assertEqual(LilyPond.from_Bar(self.commonbar),
@@ -130,23 +139,30 @@ class test_LilyPond(unittest.TestCase):
 
     def test_dotted_notes(self):
         self.assertEqual(LilyPond.from_NoteContainer(NoteContainer('C'),
-                         value.dots(8), standalone=False), "c'8.")
+                                                     value.dots(8),
+                                                     standalone=False), "c'8.")
         self.assertEqual(LilyPond.from_NoteContainer(NoteContainer('C'),
-                         value.dots(4, 2), standalone=False), "c'4..")
+                                                     value.dots(4, 2),
+                                                     standalone=False), "c'4..")
 
     def test_to_pdf(self):
         self.assertTrue(LilyPond.to_pdf('{ %s }'
-                      % LilyPond.from_NoteContainer(NoteContainer('C'),
-                     value.dots(8)), 'pdftest first test'))
-        self.assertTrue(LilyPond.to_pdf(LilyPond.from_Bar(self.tbar), 'pdftest2'))
-        self.assertTrue(LilyPond.to_pdf(LilyPond.from_Bar(self.mbar), 'pdftest3'))
+                                        % LilyPond.from_NoteContainer(
+            NoteContainer('C'),
+            value.dots(8)), 'pdftest first test'))
+        self.assertTrue(
+            LilyPond.to_pdf(LilyPond.from_Bar(self.tbar), 'pdftest2'))
+        self.assertTrue(
+            LilyPond.to_pdf(LilyPond.from_Bar(self.mbar), 'pdftest3'))
 
     def test_to_png(self):
         self.assertTrue(LilyPond.to_png('{ %s }'
-                      % LilyPond.from_NoteContainer(NoteContainer('C'),
-                     value.dots(8)), 'pn1'))
+                                        % LilyPond.from_NoteContainer(
+            NoteContainer('C'),
+            value.dots(8)), 'pn1'))
         self.assertTrue(LilyPond.to_png(LilyPond.from_Bar(self.tbar), 'pn2'))
         self.assertTrue(LilyPond.to_png(LilyPond.from_Bar(self.mbar), 'pn3'))
+
 
 def suite():
     return unittest.TestLoader().loadTestsFromTestCase(test_LilyPond)

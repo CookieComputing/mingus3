@@ -25,31 +25,28 @@ to run all the testcases.
 
 import unittest
 
-import test_notes
-import test_keys
-import test_intervals
+import test_bar
 import test_chords
-import test_scales
+import test_composition
+import test_fft
+import test_instrument
+import test_intervals
+import test_keys
 import test_meter
+import test_musicxml
+import test_note
+import test_note_containers
+import test_notes
 import test_progressions
+import test_scales
+import test_suite
+import test_tablature
+import test_track
+import test_tunings
 import test_value
 
 # mingus.containers Tests
-
-import test_note
-import test_note_containers
-import test_instrument
-import test_bar
-import test_track
-import test_composition
-import test_suite
-
 # MIDI TESTS HERE ...
-
-import test_fft
-import test_tablature
-import test_tunings
-import test_musicxml
 
 # See run_fluidsynth_tests.py for FluidSynth audio tests See
 # run_lilypond_tests.py to generate some pdf's
@@ -65,7 +62,7 @@ core = [
     test_meter,
     test_progressions,
     test_value,
-    ]
+]
 containers = [
     test_note,
     test_note_containers,
@@ -74,13 +71,13 @@ containers = [
     test_track,
     test_composition,
     test_suite,
-    ]
+]
 extra = [
-        test_fft, 
-        test_tunings, 
-        test_tablature, 
-        test_musicxml
-        ]
+    test_fft,
+    test_tunings,
+    test_tablature,
+    test_musicxml
+]
 
 # Run all tests
 

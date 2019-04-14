@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+
 sys.path += ['../']
 from mingus.containers.instrument import Instrument, Piano, Guitar
 from mingus.containers.note_container import NoteContainer
@@ -25,10 +26,10 @@ class test_Instrument(unittest.TestCase):
         for x in self.noteslow + self.noteshigh:
             self.assertEqual(False, self.p.note_in_range(x),
                              '%s should not be able to be played by a Piano'
-                              % x)
+                             % x)
             self.assertEqual(False, self.g.note_in_range(x),
                              '%s should not be able to be played by a Guitar'
-                              % x)
+                             % x)
 
     def test_can_play_notes(self):
         self.assertTrue(self.i.can_play_notes(self.notes))
@@ -46,10 +47,8 @@ class test_Instrument(unittest.TestCase):
             'E',
             'F',
             'G',
-            ])))
+        ])))
 
 
 def suite():
     return unittest.TestLoader().loadTestsFromTestCase(test_Instrument)
-
-

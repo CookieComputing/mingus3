@@ -31,14 +31,14 @@ To start using FluidSynth with mingus, do:
 Now you are ready to play Notes, NoteContainers, etc.
 """
 
-from mingus.midi.sequencer import Sequencer
-from mingus.containers.instrument import MidiInstrument
-from . import pyfluidsynth as fs
 import time
 import wave
 
-class FluidSynthSequencer(Sequencer):
+from mingus.midi.sequencer import Sequencer
+from . import pyfluidsynth as fs
 
+
+class FluidSynthSequencer(Sequencer):
     """A simple MidiSequencer for FluidSynth."""
 
     output = None
@@ -102,6 +102,7 @@ class FluidSynthSequencer(Sequencer):
 midi = FluidSynthSequencer()
 initialized = False
 
+
 def init(sf2, driver=None, file=None):
     """Initialize the audio.
 
@@ -129,6 +130,7 @@ def init(sf2, driver=None, file=None):
         initialized = True
     return True
 
+
 def play_Note(note, channel=1, velocity=100):
     """Convert a Note object to a 'midi on' command.
 
@@ -144,6 +146,7 @@ def play_Note(note, channel=1, velocity=100):
     """
     return midi.play_Note(note, channel, velocity)
 
+
 def stop_Note(note, channel=1):
     """Stop the Note playing at channel.
 
@@ -151,13 +154,16 @@ def stop_Note(note, channel=1):
     """
     return midi.stop_Note(note, channel)
 
+
 def play_NoteContainer(nc, channel=1, velocity=100):
     """Use play_Note to play the Notes in the NoteContainer nc."""
     return midi.play_NoteContainer(nc, channel, velocity)
 
+
 def stop_NoteContainer(nc, channel=1):
     """Use stop_Note to stop the notes in NoteContainer nc."""
     return midi.stop_NoteContainer(nc, channel)
+
 
 def play_Bar(bar, channel=1, bpm=120):
     """Play a Bar object using play_NoteContainer and stop_NoteContainer.
@@ -166,6 +172,7 @@ def play_Bar(bar, channel=1, bpm=120):
     """
     return midi.play_Bar(bar, channel, bpm)
 
+
 def play_Bars(bars, channels, bpm=120):
     """Play a list of bars on the given list of channels.
 
@@ -173,39 +180,48 @@ def play_Bars(bars, channels, bpm=120):
     """
     return midi.play_Bars(bars, channels, bpm)
 
+
 def play_Track(track, channel=1, bpm=120):
     """Use play_Bar to play a Track object."""
     return midi.play_Track(track, channel, bpm)
+
 
 def play_Tracks(tracks, channels, bpm=120):
     """Use play_Bars to play a list of Tracks on the given list of channels."""
     return midi.play_Tracks(tracks, channels, bpm)
 
+
 def play_Composition(composition, channels=None, bpm=120):
     """Play a composition."""
     return midi.play_Composition(composition, channels, bpm)
+
 
 def control_change(channel, control, value):
     """Send a control change event on channel."""
     return midi.control_change(channel, control, value)
 
+
 def set_instrument(channel, midi_instr):
     """Set the midi instrument on channel."""
     return midi.set_instrument(channel, midi_instr)
+
 
 def stop_everything():
     """Stop all the playing notes on all channels."""
     return midi.stop_everything()
 
+
 def modulation(channel, value):
     return midi.modulation(channel, value)
+
 
 def pan(channel, value):
     return midi.pan(channel, value)
 
+
 def main_volume(channel, value):
     return midi.main_volume(channel, value)
 
+
 def set_instrument(channel, instr, bank=0):
     return midi.set_instrument(channel, instr, bank)
-

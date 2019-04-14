@@ -19,9 +19,9 @@
 
 from mingus.core import meter as _meter
 from mingus.core import progressions, keys
-from .note_container import NoteContainer
-from .note import Note
 from .mt_exceptions import MeterFormatError
+from .note_container import NoteContainer
+
 
 class Bar(object):
     """A bar object.
@@ -68,8 +68,8 @@ class Bar(object):
             self.length = 0.0
         else:
             raise MeterFormatError("The meter argument '%s' is not an "
-                    "understood representation of a meter. "
-                    "Expecting a tuple." % meter)
+                                   "understood representation of a meter. "
+                                   "Expecting a tuple." % meter)
 
     def place_notes(self, notes, duration):
         """Place the notes on the current_beat.
@@ -92,8 +92,8 @@ class Bar(object):
             notes = NoteContainer(notes)
         elif type(notes) == list:
             notes = NoteContainer(notes)
-        if self.current_beat + 1.0 / duration <= self.length or self.length\
-             == 0.0:
+        if self.current_beat + 1.0 / duration <= self.length or self.length \
+                == 0.0:
             self.bar.append([self.current_beat, duration, notes])
             self.current_beat += 1.0 / duration
             return True
@@ -192,7 +192,7 @@ class Bar(object):
         res = []
         for x in self.bar:
             res.append([x[0], progressions.determine(x[2].get_note_names(),
-                       self.key.key, shorthand)])
+                                                     self.key.key, shorthand)])
         return res
 
     def get_note_names(self):
@@ -248,4 +248,3 @@ class Bar(object):
             if self.bar[b] != other.bar[b]:
                 return False
         return True
-

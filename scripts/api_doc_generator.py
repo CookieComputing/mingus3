@@ -23,19 +23,13 @@
 This module builds the reference documentation for mingus.
 """
 
-import mingus
-from mingus.core import *
-from mingus.containers import *
-from mingus.extra import *
-from mingus.midi import *
-import types
 import inspect
-import sys
 import os
-import inspect
+import sys
+import types
+
 
 class Documize(object):
-
     """Generate documents from modules."""
 
     functions = []
@@ -45,13 +39,16 @@ class Documize(object):
     def __init__(self, module_string=''):
         self.set_module(module_string)
 
-    def process_element_recursively(self, element_string, element_evaled, is_class = False):
+    def process_element_recursively(self, element_string, element_evaled,
+                                    is_class=False):
         for element in dir(element_evaled):
             e = eval('{0}.{1}'.format(element_string, element))
             if not callable(e):
-                self.generate_non_callable_docs(element_string, element, e, is_class)
+                self.generate_non_callable_docs(element_string, element, e,
+                                                is_class)
             else:
-                self.generate_callable_wikidocs(element_string, element, e, is_class)
+                self.generate_callable_wikidocs(element_string, element, e,
+                                                is_class)
 
     def generate_module_wikidocs(self):
         self.reset()
@@ -84,12 +81,13 @@ class Documize(object):
         res += '\n\n:doc:`Back to Index</index>`\n'
         return res
 
-    def generate_non_callable_docs(self, module_string, element_string, evaled, is_class = False):
+    def generate_non_callable_docs(self, module_string, element_string, evaled,
+                                   is_class=False):
         if element_string[0] != '_' and type(evaled) != types.ModuleType:
             t = str(type(evaled))
             t = t.split("'")
             directive = "----\n\n.. data" if not is_class else "   .. attribute"
-            res = '\n{0}:: {1}\n\n'.format(directive , element_string)
+            res = '\n{0}:: {1}\n\n'.format(directive, element_string)
             res += '      Attribute of type: {0}\n'.format(t[1])
             res += '      ``{0}``\n'.format(repr(evaled))
             if not is_class:
@@ -97,9 +95,11 @@ class Documize(object):
             else:
                 self.classes.append(res)
 
-    def generate_callable_wikidocs(self, module_string, element_string, evaled, is_class = False):
+    def generate_callable_wikidocs(self, module_string, element_string, evaled,
+                                   is_class=False):
         if type(evaled) in [types.FunctionType, types.MethodType]:
-            docs = self.generate_function_wikidocs(element_string, evaled, is_class)
+            docs = self.generate_function_wikidocs(element_string, evaled,
+                                                   is_class)
             if not is_class:
                 self.functions.append(docs)
             else:
@@ -108,14 +108,16 @@ class Documize(object):
             self.classes.append('\n.. class:: ' + element_string + '\n\n')
             module_string = module_string + "." + element_string
             self.process_element_recursively(module_string, evaled, True)
-        elif hasattr(evaled, '__module__') and evaled.__module__ is not None and evaled.__module__.startswith(module_string):
+        elif hasattr(evaled,
+                     '__module__') and evaled.__module__ is not None and evaled.__module__.startswith(
+                module_string):
             self.classes.append('\n.. class:: ' + element_string + '\n\n')
             module_string = module_string + "." + element_string
             self.process_element_recursively(module_string, evaled, True)
         else:
             pass
 
-    def generate_function_wikidocs(self, func_string, func, is_class = False):
+    def generate_function_wikidocs(self, func_string, func, is_class=False):
         directive = '----\n\n.. function' if not is_class else '   .. method'
         res = '\n{0}:: {1}('.format(directive, func_string)
         argspec = inspect.getargspec(func)
@@ -127,9 +129,11 @@ class Documize(object):
         for n in range(0, len(args)):
             try:
                 if defaults != None and len(defaults) >= len(args) - n:
-                    res += '{0}={1}, '.format(args[n], defaults[n - (len(args) - len(defaults))])
-                    
-                    def_values.append((args[n], defaults[n - (len(args) - len(defaults))]))
+                    res += '{0}={1}, '.format(args[n], defaults[
+                        n - (len(args) - len(defaults))])
+
+                    def_values.append(
+                        (args[n], defaults[n - (len(args) - len(defaults))]))
                 else:
                     res += '{0}, '.format(args[n])
             except:
@@ -173,7 +177,7 @@ class Documize(object):
 
 
 def generate_package_wikidocs(package_string, file_prefix='ref',
-        file_suffix='.wiki'):
+                              file_suffix='.wiki'):
     d = Documize()
     package = eval(package_string)
     print('\nGenerating documentation for package {0}'.format(package_string))
@@ -200,6 +204,7 @@ def generate_package_wikidocs(package_string, file_prefix='ref',
             except:
                 print("ERROR. Couldn't open file for writing.")
 
+
 def main():
     print('mingus version 0.5, Copyright (C) 2008-2015, Bart Spaans\n')
     print('mingus comes with ABSOLUTELY NO WARRANTY. This is free')
@@ -215,6 +220,7 @@ def main():
     generate_package_wikidocs('mingus.midi', 'ref', '.rst')
     generate_package_wikidocs('mingus.containers', 'ref', '.rst')
     generate_package_wikidocs('mingus.extra', 'ref', '.rst')
+
 
 if __name__ == '__main__':
     main()

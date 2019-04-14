@@ -19,11 +19,13 @@
 
 """Functions to convert mingus.containers to pretty ASCII tablature."""
 
-import mingus.extra.tunings as tunings
-from mingus.core.mt_exceptions import RangeError, FingerError
 import os
 
+import mingus.extra.tunings as tunings
+from mingus.core.mt_exceptions import RangeError, FingerError
+
 default_tuning = tunings.get_tuning('Guitar', 'Standard', 6, 1)
+
 
 def begin_track(tuning, padding=2):
     """Helper function that builds the first few characters of every bar."""
@@ -42,7 +44,7 @@ def begin_track(tuning, padding=2):
 
 
 def add_headers(width=80, title='Untitled', subtitle='', author='', email='',
-        description='', tunings=[]):
+                description='', tunings=[]):
     """Create a nice header in the form of a list of strings using the
     information that has been filled in.
 
@@ -59,7 +61,7 @@ def add_headers(width=80, title='Untitled', subtitle='', author='', email='',
         result += ['', '']
         if email != '':
             result += [str.center('Written by: %s <%s>' % (author, email),
-                       width)]
+                                  width)]
         else:
             result += [str.center('Written by: %s' % author, width)]
     if description != '':
@@ -83,9 +85,11 @@ def add_headers(width=80, title='Untitled', subtitle='', author='', email='',
         result += ['', '', str.center('Instruments', width)]
         for (i, tuning) in enumerate(tunings):
             result += ['', str.center('%d. %s' % (i + 1, tuning.instrument),
-                       width), str.center(tuning.description, width)]
+                                      width),
+                       str.center(tuning.description, width)]
     result += ['', '']
     return result
+
 
 def from_Note(note, width=80, tuning=None):
     """Return a string made out of ASCII tablature representing a Note object
@@ -135,9 +139,10 @@ def from_Note(note, width=80, tuning=None):
                 result[i] += '-' * d + '|'
     else:
         raise RangeError("No fret found that could play note '%s'. "
-                "Note out of range." % note)
+                         "Note out of range." % note)
     result.reverse()
     return os.linesep.join(result)
+
 
 def from_NoteContainer(notes, width=80, tuning=None):
     """Return a string made out of ASCII tablature representing a
@@ -206,6 +211,7 @@ def from_NoteContainer(notes, width=80, tuning=None):
         raise FingerError('No playable fingering found for: %s' % notes)
     result.reverse()
     return os.linesep.join(result)
+
 
 def from_Bar(bar, width=40, tuning=None, collapse=True):
     """Convert a mingus.containers.Bar object to ASCII tablature.
@@ -291,13 +297,14 @@ def from_Bar(bar, width=40, tuning=None, collapse=True):
 
     # Mark quarter notes
     pad = ' ' * int(((1.0 / bar.meter[1]) * qsize) * 4 - 1)
-    r = ' ' * (result[0].find('||') + 2 + max(2, qsize / 2)) + ('*' + pad)\
-         * bar.meter[0]
+    r = ' ' * (result[0].find('||') + 2 + max(2, qsize / 2)) + ('*' + pad) \
+        * bar.meter[0]
     r += ' ' * (len(result[0]) - len(r))
     if not collapse:
         return [r] + result
     else:
         return os.linesep.join([r] + result)
+
 
 def from_Track(track, maxwidth=80, tuning=None):
     """Convert a mingus.containers.Track object to an ASCII tablature string.
@@ -325,6 +332,7 @@ def from_Track(track, maxwidth=80, tuning=None):
         lastlen = len(result[-1])
     return os.linesep.join(result)
 
+
 def from_Composition(composition, width=80):
     """Convert a mingus.containers.Composition to an ASCII tablature string.
 
@@ -351,7 +359,7 @@ def from_Composition(composition, width=80):
         composition.email,
         composition.description,
         instr_tunings,
-        )
+    )
 
     # Some variables
     w = _get_width(width)
@@ -396,6 +404,7 @@ def from_Composition(composition, width=80):
         barindex += bars
     return os.linesep.join(result)
 
+
 def from_Suite(suite, maxwidth=80):
     """Convert a mingus.containers.Suite to an ASCII tablature string, complete
     with headers.
@@ -403,8 +412,8 @@ def from_Suite(suite, maxwidth=80):
     This function makes use of the Suite's title, subtitle, author, email
     and description attributes.
     """
-    subtitle = str(len(suite.compositions)) + ' Compositions' if suite.subtitle\
-         == '' else suite.subtitle
+    subtitle = str(len(suite.compositions)) + ' Compositions' if suite.subtitle \
+                                                                 == '' else suite.subtitle
     result = os.linesep.join(add_headers(
         maxwidth,
         suite.title,
@@ -412,7 +421,7 @@ def from_Suite(suite, maxwidth=80):
         suite.author,
         suite.email,
         suite.description,
-        ))
+    ))
     hr = maxwidth * '='
     n = os.linesep
     result = n + hr + n + result + n + hr + n + n
@@ -420,6 +429,7 @@ def from_Suite(suite, maxwidth=80):
         c = from_Composition(comp, maxwidth)
         result += c + n + hr + n + n
     return result
+
 
 def _get_qsize(tuning, width):
     """Return a reasonable quarter note size for 'tuning' and 'width'."""
@@ -430,6 +440,7 @@ def _get_qsize(tuning, width):
     # x * 4 + 0.5x - barsize = 0 4.5x = barsize x = barsize / 4.5
     return max(0, int(barsize / 4.5))
 
+
 def _get_width(maxwidth):
     """Return the width of a single bar, when width of the page is given."""
     width = maxwidth / 3
@@ -438,4 +449,3 @@ def _get_width(maxwidth):
     elif 60 < maxwidth <= 120:
         width = maxwidth / 2
     return width
-

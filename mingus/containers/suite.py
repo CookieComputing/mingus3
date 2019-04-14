@@ -19,8 +19,8 @@
 
 from .mt_exceptions import UnexpectedObjectError
 
-class Suite(object):
 
+class Suite(object):
     """A suite object.
 
     The Suite class is a datastructure that stores Composition objects.
@@ -44,7 +44,7 @@ class Suite(object):
         """
         if not hasattr(composition, 'tracks'):
             raise UnexpectedObjectError("Object '%s' not expected. Expecting "
-                    "a mingus.containers.Composition object." % composition)
+                                        "a mingus.containers.Composition object." % composition)
         self.compositions.append(composition)
         return self
 
@@ -70,11 +70,10 @@ class Suite(object):
         """Enable the '[] =' notation."""
         if not hasattr(value, 'tracks'):
             raise UnexpectedObjectError("Object '%s' is not expected. "
-                    "Expecting a "
-                    "mingus.containers.Composition object." % value)
+                                        "Expecting a "
+                                        "mingus.containers.Composition object." % value)
         self.compositions[index] = value
 
     def __add__(self, composition):
         """Enable the '+' operator for Compositions."""
         return self.add_composition(composition)
-

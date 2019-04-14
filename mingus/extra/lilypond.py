@@ -22,14 +22,13 @@
 This allows you to create sheet music from some of the objects in
 mingus.containers.
 """
-from mingus.containers import Note
-
-from mingus.core.keys import Key
-from mingus.containers.mt_exceptions import (NoteFormatError,
-        UnexpectedObjectError)
-import mingus.core.value as value
 import os
 import subprocess
+
+import mingus.core.value as value
+from mingus.containers import Note
+from mingus.core.keys import Key
+
 
 def from_Note(note, process_octaves=True, standalone=True):
     """Get a Note object and return the LilyPond equivalent in a string.
@@ -69,6 +68,7 @@ def from_Note(note, process_octaves=True, standalone=True):
     else:
         return result
 
+
 def from_NoteContainer(nc, duration=None, standalone=True):
     """Get a NoteContainer object and return the LilyPond equivalent in a
     string.
@@ -87,7 +87,7 @@ def from_NoteContainer(nc, duration=None, standalone=True):
         result = 'r'
     elif len(nc.notes) == 1:
 
-    # Return a single note if the list contains only one note
+        # Return a single note if the list contains only one note
         result = from_Note(nc.notes[0], standalone=False)
     else:
         # Return the notes grouped in '<' and '>'
@@ -115,6 +115,7 @@ def from_NoteContainer(nc, duration=None, standalone=True):
     else:
         return '{ %s }' % result
 
+
 def from_Bar(bar, showkey=True, showtime=True):
     """Get a Bar object and return the LilyPond equivalent in a string.
 
@@ -128,7 +129,8 @@ def from_Bar(bar, showkey=True, showtime=True):
     # Process the key
     if showkey:
         key_note = Note(bar.key.key[0].upper() + bar.key.key[1:])
-        key = '\\key %s \\%s ' % (from_Note(key_note, False, standalone=False), bar.key.mode)
+        key = '\\key %s \\%s ' % (
+        from_Note(key_note, False, standalone=False), bar.key.mode)
         result = key
     else:
         result = ''
@@ -141,13 +143,13 @@ def from_Bar(bar, showkey=True, showtime=True):
         ratio = parsed_value[2:]
         if ratio == latest_ratio:
             result += from_NoteContainer(bar_entry[2], bar_entry[1],
-                    standalone=False) + ' '
+                                         standalone=False) + ' '
         else:
             if ratio_has_changed:
                 result += '}'
             result += '\\times %d/%d {' % (ratio[1], ratio[0])
             result += from_NoteContainer(bar_entry[2], bar_entry[1],
-                    standalone=False) + ' '
+                                         standalone=False) + ' '
             latest_ratio = ratio
             ratio_has_changed = True
     if ratio_has_changed:
@@ -158,6 +160,7 @@ def from_Bar(bar, showkey=True, showtime=True):
         return '{ \\time %d/%d %s}' % (bar.meter[0], bar.meter[1], result)
     else:
         return '{ %s}' % result
+
 
 def from_Track(track):
     """Process a Track object and return the LilyPond equivalent in a string."""
@@ -183,19 +186,22 @@ def from_Track(track):
         lasttime = bar.meter
     return '{ %s}' % result
 
+
 def from_Composition(composition):
     """Return the LilyPond equivalent of a Composition in a string."""
     # warning Throw exception
     if not hasattr(composition, 'tracks'):
         return False
-    result = '\\header { title = "%s" composer = "%s" opus = "%s" } '\
-         % (composition.title, composition.author, composition.subtitle)
+    result = '\\header { title = "%s" composer = "%s" opus = "%s" } ' \
+             % (composition.title, composition.author, composition.subtitle)
     for track in composition.tracks:
         result += from_Track(track) + ' '
     return result[:-1]
 
+
 def from_Suite(suite):
     pass
+
 
 def to_png(ly_string, filename):
     """Save a string in LilyPond format to a PNG.
@@ -204,12 +210,14 @@ def to_png(ly_string, filename):
     """
     return save_string_and_execute_LilyPond(ly_string, filename, '-fpng')
 
+
 def to_pdf(ly_string, filename):
     """Save a string in LilyPond format to a PDF.
 
     LilyPond in the $PATH is needed.
     """
     return save_string_and_execute_LilyPond(ly_string, filename, '-fpdf')
+
 
 def save_string_and_execute_LilyPond(ly_string, filename, command):
     """A helper function for to_png and to_pdf. Should not be used directly."""

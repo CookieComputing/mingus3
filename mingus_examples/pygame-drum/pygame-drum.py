@@ -31,11 +31,14 @@
 
 """
 
+from os import sys
+
 import pygame
 from pygame.locals import *
+
 from mingus.containers import *
 from mingus.midi import fluidsynth
-from os import sys
+
 SF2 = 'soundfont.sf2'
 
 PAD_PLACEMENT = [  # high, mid, low, snare bass, crash, ride, open, close
@@ -48,7 +51,7 @@ PAD_PLACEMENT = [  # high, mid, low, snare bass, crash, ride, open, close
     (470, 160),
     (20, 160),
     (20, 300),
-    ]
+]
 FADEOUT = 0.125  # coloration fadout time (1 tick = 0.001)
 
 
@@ -126,12 +129,12 @@ high_barrier = 0.50
 playing = []  # Notes playing right now
 recorded = []  # Recorded notes. A list of all the notes entered.
 recorded_buffer = []  # Recorded notes that are in the display window (ie. their
-                      # tick is between low and high barrier)
+# tick is between low and high barrier)
 played = 0  # Used to keep track of the place in the recording, when status is
-            # 'play'
+# 'play'
 buffered = 0  # Used to keep track of the buffer, when status is 'play'
 need_buffer = True  # This is only False when status is 'play' and there are no
-                    # more notes to buffer
+# more notes to buffer
 
 status = 'stopped'
 while not quit:
@@ -251,7 +254,7 @@ while not quit:
         try:
             while need_buffer and recorded[buffered][1] <= high_barrier:
                 recorded_buffer.append([recorded[buffered][0],
-                                       recorded[buffered][1]])
+                                        recorded[buffered][1]])
                 buffered += 1
                 if buffered >= len(recorded) - 1:
                     buffered = len(recorded) - 1

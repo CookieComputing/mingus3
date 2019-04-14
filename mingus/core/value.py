@@ -72,7 +72,7 @@ musicxml = {
     32: '32th',
     64: '64th',
     128: '128th',
-    }
+}
 base_values = [
     0.25,
     0.5,
@@ -84,7 +84,7 @@ base_values = [
     32,
     64,
     128,
-    ]
+]
 base_quintuplets = [
     0.3125,
     0.625,
@@ -96,7 +96,7 @@ base_quintuplets = [
     40,
     80,
     160,
-    ]
+]
 base_triplets = [
     0.375,
     0.75,
@@ -108,7 +108,7 @@ base_triplets = [
     48,
     96,
     192,
-    ]
+]
 base_septuplets = [
     0.4375,
     0.875,
@@ -120,7 +120,8 @@ base_septuplets = [
     56,
     112,
     224,
-    ]
+]
+
 
 def add(value1, value2):
     """Return the value of the two combined.
@@ -130,6 +131,7 @@ def add(value1, value2):
     2.6666666666666665
     """
     return 1 / (1.0 / value1 + 1.0 / value2)
+
 
 def subtract(value1, value2):
     """Return the note value for value1 minus value2.
@@ -142,6 +144,7 @@ def subtract(value1, value2):
     8.0
     """
     return 1 / (1.0 / value1 - 1.0 / value2)
+
 
 def dots(value, nr=1):
     """Return the dotted note value.
@@ -161,6 +164,7 @@ def dots(value, nr=1):
     """
     return (0.5 * value) / (1.0 - 0.5 ** (nr + 1))
 
+
 def triplet(value):
     """Return the triplet note value.
 
@@ -175,6 +179,7 @@ def triplet(value):
     """
     return tuplet(value, 3, 2)
 
+
 def quintuplet(value):
     """Return the quintuplet note value.
 
@@ -188,6 +193,7 @@ def quintuplet(value):
     5
     """
     return tuplet(value, 5, 4)
+
 
 def septuplet(value, in_fourths=True):
     """Return the septuplet note value.
@@ -213,6 +219,7 @@ def septuplet(value, in_fourths=True):
     else:
         return tuplet(value, 7, 8)
 
+
 def tuplet(value, rat1, rat2):
     """Return a tuplet.
 
@@ -226,6 +233,7 @@ def tuplet(value, rat1, rat2):
     12
     """
     return (rat1 * value) / float(rat2)
+
 
 def determine(value):
     """Analyse the value and return a tuple containing the parts it's made of.
@@ -272,4 +280,3 @@ def determine(value):
         if scaled == 2.0 ** x / d:
             return (v, x, 1, 1)
     return (base_values[i + 1], 0, 1, 1)
-

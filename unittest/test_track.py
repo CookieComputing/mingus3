@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+
 sys.path += ['../']
 from mingus.containers.track import Track
-from mingus.containers.bar import Bar
 from mingus.containers.instrument import Instrument, Piano, Guitar
 import unittest
 
@@ -32,5 +32,3 @@ class test_Track(unittest.TestCase):
 
 def suite():
     return unittest.TestLoader().loadTestsFromTestCase(test_Track)
-
-

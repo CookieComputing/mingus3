@@ -9,13 +9,15 @@
     You should specify the SF2 soundfont file.
 """
 
-from mingus.core import progressions, intervals
-from mingus.core import chords as ch
-from mingus.containers import NoteContainer, Note
-from mingus.midi import fluidsynth
-import time
 import sys
+import time
 from random import random
+
+from mingus.containers import NoteContainer, Note
+from mingus.core import chords as ch
+from mingus.core import progressions, intervals
+from mingus.midi import fluidsynth
+
 SF2 = 'soundfont_example.sf2'
 progression = [
     'I',
@@ -26,7 +28,7 @@ progression = [
     'viidom7',
     'iii7',
     'V7',
-    ]
+]
 key = 'C'
 chords = progressions.to_chords(progression, key)
 if not fluidsynth.init(SF2):

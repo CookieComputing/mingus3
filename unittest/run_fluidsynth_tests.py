@@ -24,6 +24,8 @@ Remember: you need a running fluidsynth server process listening at port
 """
 
 import unittest
+
 import test_fluidsynth
+
 suite = unittest.TestSuite([test_fluidsynth.suite()])
 unittest.TextTestRunner(verbosity=2).run(suite)

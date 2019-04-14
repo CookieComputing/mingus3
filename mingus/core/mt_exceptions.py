@@ -18,31 +18,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class Error(Exception):
-
     pass
 
 
 class FormatError(Error):
-
     pass
 
 
 class NoteFormatError(Error):
-
     pass
 
 
 class KeyError(Error):
-
     pass
 
 
 class RangeError(Error):
-
     pass
 
 
 class FingerError(Error):
-
     pass
-

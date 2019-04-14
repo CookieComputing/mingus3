@@ -28,8 +28,8 @@ you need to see.
 
 from mingus.midi.sequencer import Sequencer
 
-class SequencerObserver(object):
 
+class SequencerObserver(object):
     """An easy to extend base class that can be used to observe a Sequencer.
 
     Each time a Sequencer starts playing a new Note, Bar, w/e, an event is
@@ -84,7 +84,7 @@ class SequencerObserver(object):
     def notify(self, msg_type, params):
         if msg_type == Sequencer.MSG_PLAY_INT:
             self.play_int_note_event(params['note'], params['channel'],
-                    params['velocity'])
+                                     params['velocity'])
         elif msg_type == Sequencer.MSG_STOP_INT:
             self.stop_int_note_event(params['note'], params['channel'])
         elif msg_type == Sequencer.MSG_CC:
@@ -95,7 +95,7 @@ class SequencerObserver(object):
             self.sleep(params['s'])
         elif msg_type == Sequencer.MSG_PLAY_NOTE:
             self.play_Note(params['note'], params['channel'],
-                    params['velocity'])
+                           params['velocity'])
         elif msg_type == Sequencer.MSG_STOP_NOTE:
             self.stop_Note(params['note'], params['channel'])
         elif msg_type == Sequencer.MSG_PLAY_NC:
@@ -110,8 +110,7 @@ class SequencerObserver(object):
             self.play_Track(params['track'], params['channel'], params['bpm'])
         elif msg_type == Sequencer.MSG_PLAY_TRACKS:
             self.play_Tracks(params['tracks'], params['channels'],
-                    params['bpm'])
+                             params['bpm'])
         elif msg_type == Sequencer.MSG_PLAY_COMPOSITION:
             self.play_Composition(params['composition'], params['channels'],
-                    params['bpm'])
-
+                                  params['bpm'])

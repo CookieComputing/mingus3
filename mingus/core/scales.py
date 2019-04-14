@@ -53,9 +53,10 @@ Other scales
 """
 
 from . import intervals
-from .notes import augment, diminish, reduce_accidentals
 from .keys import keys, get_notes
 from .mt_exceptions import NoteFormatError, FormatError, RangeError
+from .notes import augment, diminish, reduce_accidentals
+
 
 def determine(notes):
     """Determine the scales containing the notes.
@@ -83,7 +84,6 @@ def determine(notes):
 
 
 class _Scale(object):
-
     """General class implementing general methods.
 
     Not to be used by the final user.
@@ -101,7 +101,7 @@ class _Scale(object):
 
     def __str__(self):
         return 'Ascending:  {0}\nDescending: {1}'.format(
-                ' '.join(self.ascending()), ' '.join(self.descending()))
+            ' '.join(self.ascending()), ' '.join(self.descending()))
 
     def __eq__(self, other):
         if self.ascending() == other.ascending():
@@ -133,10 +133,10 @@ class _Scale(object):
             raise RangeError("degree '%s' out of range" % degree_number)
         if direction == 'a':
             notes = self.ascending()[:-1]
-            return notes[degree_number-1]
+            return notes[degree_number - 1]
         elif direction == 'd':
             notes = reversed(self.descending())[:-1]
-            return notes[degree_number-1]
+            return notes[degree_number - 1]
         else:
             raise FormatError("Unrecognised direction '%s'" % direction)
 
@@ -144,7 +144,6 @@ class _Scale(object):
 # The diatonic scales
 
 class Diatonic(_Scale):
-
     """The diatonic scale.
 
     Example:
@@ -154,7 +153,7 @@ class Diatonic(_Scale):
     """
 
     type = 'diatonic'
-        
+
     def __init__(self, note, semitones, octaves=1):
         """Create the diatonic scale starting on the chosen note.
 
@@ -164,7 +163,7 @@ class Diatonic(_Scale):
         super(Diatonic, self).__init__(note, octaves)
         self.semitones = semitones
         self.name = '{0} diatonic, semitones in {1}'.format(self.tonic,
-                self.semitones)
+                                                            self.semitones)
 
     def ascending(self):
         notes = [self.tonic]
@@ -179,7 +178,6 @@ class Diatonic(_Scale):
 # Ancient scales
 
 class Ionian(_Scale):
-
     """The ionian scale.
 
     Example:
@@ -201,7 +199,6 @@ class Ionian(_Scale):
 
 
 class Dorian(_Scale):
-
     """The dorian scale.
 
     Example:
@@ -223,7 +220,6 @@ class Dorian(_Scale):
 
 
 class Phrygian(_Scale):
-
     """The phrygian scale.
 
     Example:
@@ -245,7 +241,6 @@ class Phrygian(_Scale):
 
 
 class Lydian(_Scale):
-
     """The lydian scale.
 
     Example:
@@ -267,7 +262,6 @@ class Lydian(_Scale):
 
 
 class Mixolydian(_Scale):
-
     """The mixolydian scale.
 
     Example:
@@ -289,7 +283,6 @@ class Mixolydian(_Scale):
 
 
 class Aeolian(_Scale):
-
     """The aeolian scale.
 
     Example:
@@ -311,7 +304,6 @@ class Aeolian(_Scale):
 
 
 class Locrian(_Scale):
-
     """The locrian scale.
 
     Example:
@@ -335,7 +327,6 @@ class Locrian(_Scale):
 # The major scales
 
 class Major(_Scale):
-
     """The major scale.
 
     Example:
@@ -357,7 +348,6 @@ class Major(_Scale):
 
 
 class HarmonicMajor(_Scale):
-
     """The harmonic major scale.
 
     Example:
@@ -382,7 +372,6 @@ class HarmonicMajor(_Scale):
 # The minor scales
 
 class NaturalMinor(_Scale):
-
     """The natural minor scale.
 
     Example:
@@ -404,7 +393,6 @@ class NaturalMinor(_Scale):
 
 
 class HarmonicMinor(_Scale):
-
     """The harmonic minor scale.
 
     Example:
@@ -427,7 +415,6 @@ class HarmonicMinor(_Scale):
 
 
 class MelodicMinor(_Scale):
-
     """The melodic minor scale.
 
     Example:
@@ -448,14 +435,13 @@ class MelodicMinor(_Scale):
         notes[5] = augment(notes[5])
         notes[6] = augment(notes[6])
         return notes * self.octaves + [notes[0]]
-        
+
     def descending(self):
         notes = NaturalMinor(self.tonic).descending()[:-1]
         return notes * self.octaves + [notes[0]]
 
 
 class Bachian(_Scale):
-
     """The Bachian scale.
 
     Example:
@@ -478,7 +464,6 @@ class Bachian(_Scale):
 
 
 class MinorNeapolitan(_Scale):
-
     """The minor Neapolitan scale.
 
     Example:
@@ -508,7 +493,6 @@ class MinorNeapolitan(_Scale):
 # Other scales
 
 class Chromatic(_Scale):
-
     """The chromatic scale.
 
     Examples:
@@ -553,7 +537,6 @@ class Chromatic(_Scale):
 
 
 class WholeTone(_Scale):
-
     """The whole tone scale.
 
     Example:
@@ -577,7 +560,6 @@ class WholeTone(_Scale):
 
 
 class Octatonic(_Scale):
-
     """The octatonic scale.
 
     Example:
@@ -598,9 +580,8 @@ class Octatonic(_Scale):
         notes = [self.tonic]
         for i in range(3):
             notes.extend(
-                    [intervals.major_second(notes[-1]),
-                        intervals.minor_third(notes[-1])])
+                [intervals.major_second(notes[-1]),
+                 intervals.minor_third(notes[-1])])
         notes.append(intervals.major_seventh(notes[0]))
         notes[-2] = intervals.major_sixth(notes[0])
         return notes * self.octaves + [notes[0]]
-
