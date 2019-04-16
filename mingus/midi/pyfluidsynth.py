@@ -171,11 +171,11 @@ class Synth:
           samplerate: output samplerate in Hz, default is 44100 Hz
         """
         st = new_fluid_settings()
-        fluid_settings_setnum(st, 'synth.gain', gain)
-        fluid_settings_setnum(st, 'synth.sample-rate', samplerate)
+        fluid_settings_setnum(st, b'synth.gain', gain)
+        fluid_settings_setnum(st, b'synth.sample-rate', samplerate)
 
         # No reason to limit ourselves to 16 channels
-        fluid_settings_setint(st, 'synth.midi-channels', 256)
+        fluid_settings_setint(st, b'synth.midi-channels', 256)
         self.settings = st
         self.synth = new_fluid_synth(st)
         self.audio_driver = None
@@ -220,7 +220,7 @@ class Synth:
 
     def sfload(self, filename, update_midi_preset=0):
         """Load SoundFont and return its IDi."""
-        return fluid_synth_sfload(self.synth, filename, update_midi_preset)
+        return fluid_synth_sfload(self.synth, str.encode(filename), update_midi_preset)
 
     def sfunload(self, sfid, update_midi_preset=0):
         """Unload a SoundFont and free memory it used."""
