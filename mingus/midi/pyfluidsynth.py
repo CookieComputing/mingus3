@@ -199,17 +199,17 @@ class Synth:
         """
         if driver is not None:
             assert driver in [
-                'alsa',
-                'oss',
-                'jack',
-                'portaudio',
-                'sndmgr',
-                'coreaudio',
-                'Direct Sound',
-                'dsound',
-                'pulseaudio'
+                b'alsa',
+                b'oss',
+                b'jack',
+                b'portaudio',
+                b'sndmgr',
+                b'coreaudio',
+                b'Direct Sound',
+                b'dsound',
+                b'pulseaudio'
             ]
-            fluid_settings_setstr(self.settings, 'audio.driver', driver)
+            fluid_settings_setstr(self.settings, b'audio.driver', driver)
         self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
 
     def delete(self):
