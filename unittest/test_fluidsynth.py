@@ -13,7 +13,8 @@ from mingus.midi.sequencer_observer import SequencerObserver
 class test_fluidsynth(unittest.TestCase):
 
     def setUp(self):
-        fluidsynth.init('/home/bspaans/workspace/fluidsynth/ChoriumRevA.SF2',
+        # TODO: Remove this hard dependency on a file not located in the repo
+        fluidsynth.init('/home/kevin/workspace/fluidsynth/ChoriumRevA.SF2',
                         file='test.wav')
         fluidsynth.set_instrument(0, 0)
         s = SequencerObserver()
