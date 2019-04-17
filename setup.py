@@ -48,5 +48,5 @@ setup(name="mingus",
           'Topic :: Scientific/Engineering :: Information Analysis',
           'Topic :: Scientific/Engineering :: Visualization',
           'Topic :: Software Development :: Libraries :: Python Modules',
-      ]
+      ], requires=['numpy']
       )
