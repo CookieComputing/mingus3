@@ -3,6 +3,7 @@
 import sys
 
 sys.path += ['../']
+import os
 import unittest
 import mingus.extra.fft as fft
 from mingus.containers import *
@@ -12,7 +13,7 @@ class test_fft(unittest.TestCase):
 
     def setUp(self):
         (self.data, self.freq, self.bits) = \
-            fft.data_from_file('440_sine_clean.wav')
+            fft.data_from_file(os.path.dirname(os.path.abspath(__file__)) + '/440_sine_clean.wav')
 
     def test_find_Note(self):
         self.assertEqual(Note('A'), fft.find_Note(self.data, self.freq,
@@ -20,7 +21,7 @@ class test_fft(unittest.TestCase):
 
     def test_find_melody(self):
         self.assertEqual([(Note('A-4'), 86), (Note('A-5'), 86)],
-                         fft.find_melody('440_880_clean.wav', 512)[:2])
+                         fft.find_melody(os.path.dirname(os.path.abspath(__file__)) + '/440_880_clean.wav', 512)[:2])
 
 
 def suite():

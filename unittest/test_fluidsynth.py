@@ -15,7 +15,7 @@ class test_fluidsynth(unittest.TestCase):
 
     def setUp(self):
         # TODO: Remove this hard dependency on a file not located in the repo
-        fluidsynth.init(os.path.dirname(os.getcwd()) + "/resources/ChoriumRevA.SF2",
+        fluidsynth.init(os.path.dirname(os.path.abspath(__file__)) + "/../resources/ChoriumRevA.SF2",
                         file='test.wav')
         fluidsynth.set_instrument(0, 0)
         s = SequencerObserver()
