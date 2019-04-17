@@ -4,3 +4,6 @@ MANIFEST
 build/
 dist/
 *.xml
+*.wav
+*.png
+*.pdf
