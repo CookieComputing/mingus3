@@ -7,3 +7,4 @@ dist/
 *.wav
 *.png
 *.pdf
+.idea/
