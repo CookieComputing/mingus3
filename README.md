@@ -1,5 +1,4 @@
-mingus3
-======
+# mingus3  &middot; [![Build Status](https://travis-ci.com/CookieComputing/mingus3.svg?branch=master)](https://travis-ci.com/CookieComputing/mingus3)  &middot; ![Issues](https://img.shields.io/github/issues/CookieComputing/mingus3.svg) &middot; ![License](https://img.shields.io/github/license/CookieComputing/mingus3.svg)
 
 ## What is this repository?
 
