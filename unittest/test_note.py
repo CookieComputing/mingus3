@@ -7,7 +7,6 @@ from mingus.containers.note import Note
 import unittest
 from mingus.containers.mt_exceptions import NoteFormatError
 
-
 class test_Note(unittest.TestCase):
 
     def setUp(self):
