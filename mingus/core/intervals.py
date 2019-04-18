@@ -383,11 +383,11 @@ def determine(note1, note2, shorthand=False):
             return 'bb1'
 
     # Other intervals
-    n1 = notes.fifths.index(note1[0])
-    n2 = notes.fifths.index(note2[0])
+    n1 = notes.FIFTHS.index(note1[0])
+    n2 = notes.FIFTHS.index(note2[0])
     number_of_fifth_steps = n2 - n1
     if n2 < n1:
-        number_of_fifth_steps = len(notes.fifths) - n1 + n2
+        number_of_fifth_steps = len(notes.FIFTHS) - n1 + n2
 
     # [name, shorthand_name, half notes for major version of this interval]
     fifth_steps = [

@@ -28,7 +28,7 @@ enables simple calculations.
 
 from .mt_exceptions import NoteFormatError, RangeError, FormatError
 
-_note_dict = {
+_NOTE_DICT = {
     'C': 0,
     'D': 2,
     'E': 4,
@@ -37,16 +37,16 @@ _note_dict = {
     'A': 9,
     'B': 11
 }
-fifths = ['F', 'C', 'G', 'D', 'A', 'E', 'B']
+FIFTHS = ['F', 'C', 'G', 'D', 'A', 'E', 'B']
 
 
-def int_to_note(note_int, accidentals='#'):
+def int_to_note(note_int: int, accidentals: str = '#') -> str:
     """Convert integers in the range of 0-11 to notes in the form of C or C#
-    or Db.
+    or Db. If not specified, sharps will be used.
 
-    Throw a RangeError exception if the note_int is not in the range 0-11.
-
-    If not specified, sharps will be used.
+    Raises:
+        RangeError: If the note_int is not an integer in the range 0-11.
+        FormatError: If note is not a valid accidental
 
     Examples:
     >>> int_to_note(0)
@@ -57,43 +57,47 @@ def int_to_note(note_int, accidentals='#'):
     'Eb'
     """
     if note_int not in list(range(12)):
-        raise RangeError('int out of bounds (0-11): %d' % note_int)
-    ns = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-    nf = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
+        raise RangeError('int not in range (0-11): {}'.format(note_int))
+    notes_sharp = ['C', 'C#', 'D', 'D#', 'E',
+                   'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+    notes_flat = ['C', 'Db', 'D', 'Eb', 'E',
+                  'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
     if accidentals == '#':
-        return ns[note_int]
+        return notes_sharp[note_int]
     elif accidentals == 'b':
-        return nf[note_int]
+        return notes_flat[note_int]
     else:
         raise FormatError("'%s' not valid as accidental" % accidentals)
 
 
-def is_enharmonic(note1, note2):
+def is_enharmonic(note1: str, note2: str) -> bool:
     """Test whether note1 and note2 are enharmonic, i.e. they sound the same."""
     return note_to_int(note1) == note_to_int(note2)
 
 
-def is_valid_note(note):
+def is_valid_note(note: str) -> bool:
     """Return True if note is in a recognised format. False if not."""
-    if note[0] not in _note_dict:
+    if not note:
         return False
-    for post in note[1:]:
-        if post != 'b' and post != '#':
-            return False
-    return True
+    # the first character of string is valid if it's a
+    # capital letter from A - G
+    if note[0] not in _NOTE_DICT:
+        return False
+    # Arbitrary flats and sharps are okay
+    return all(post == 'b' or post == '#' for post in note[1:])
 
 
-def note_to_int(note):
+def note_to_int(note: str) -> int:
     """Convert notes in the form of C, C#, Cb, C##, etc. to an integer in the
     range of 0-11.
 
-    Throw a NoteFormatError exception if the note format is not recognised.
+    Throws:
+        NoteFormatError: If the note format is not recognised.
     """
-    if is_valid_note(note):
-        val = _note_dict[note[0]]
-    else:
+    if not is_valid_note(note):
         raise NoteFormatError("Unknown note format '%s'" % note)
 
+    val = _NOTE_DICT[note[0]]
     # Check for '#' and 'b' postfixes
     for post in note[1:]:
         if post == 'b':
@@ -103,13 +107,19 @@ def note_to_int(note):
     return val % 12
 
 
-def reduce_accidentals(note):
+def reduce_accidentals(note: str) -> str:
     """Reduce any extra accidentals to proper notes.
+
+    Raises:
+        NoteFormatError: If the note is improperly formatted
 
     Example:
     >>> reduce_accidentals('C####')
     'E'
     """
+    if not is_valid_note(note):
+        raise NoteFormatError("Invalid note: {}".format(note))
+
     val = note_to_int(note[0])
     for token in note[1:]:
         if token == 'b':
@@ -117,14 +127,13 @@ def reduce_accidentals(note):
         elif token == '#':
             val += 1
         else:
-            raise NoteFormatError("Unknown note format '%s'" % note)
+            raise NoteFormatError("Unknown note format '{}'".format(note))
     if val >= note_to_int(note[0]):
         return int_to_note(val % 12)
-    else:
-        return int_to_note(val % 12, 'b')
+    return int_to_note(val % 12, 'b')
 
 
-def remove_redundant_accidentals(note):
+def remove_redundant_accidentals(note: str) -> str:
     """Remove redundant sharps and flats from the given note.
 
     Examples:
@@ -133,6 +142,9 @@ def remove_redundant_accidentals(note):
     >>> remove_redundant_accidentals('Eb##b')
     'E'
     """
+    if not is_valid_note(note):
+        raise NoteFormatError("Invalid note: {}".format(note))
+
     val = 0
     for token in note[1:]:
         if token == 'b':
@@ -141,16 +153,19 @@ def remove_redundant_accidentals(note):
             val += 1
     result = note[0]
     while val > 0:
-        result = augment(result)
+        result = __augment(result)
         val -= 1
     while val < 0:
-        result = diminish(result)
+        result = __diminish(result)
         val += 1
     return result
 
 
-def augment(note):
+def augment(note: str) -> str:
     """Augment a given note.
+
+    Raises:
+        NoteFormatError: If the note is invalid
 
     Examples:
     >>> augment('C')
@@ -158,13 +173,12 @@ def augment(note):
     >>> augment('Cb')
     'C'
     """
-    if note[-1] != 'b':
-        return note + '#'
-    else:
-        return note[:-1]
+    if not is_valid_note(note):
+        raise NoteFormatError("Invalid note: {}".format(note))
+    return __augment(note)
 
 
-def diminish(note):
+def diminish(note: str) -> str:
     """Diminish a given note.
 
     Examples:
@@ -173,7 +187,20 @@ def diminish(note):
     >>> diminish('C#')
     'C'
     """
+    if not is_valid_note(note):
+        raise NoteFormatError("Invalid note: {}".format(note))
+    return __diminish(note)
+
+
+def __augment(note):
+    """Augment a given note. Ignores any note formatting checking."""
+    if note[-1] != 'b':
+        return note + '#'
+    return note[:-1]
+
+
+def __diminish(note):
+    """Diminish a given note. Ignores any note formatting checking."""
     if note[-1] != '#':
         return note + 'b'
-    else:
-        return note[:-1]
+    return note[:-1]
