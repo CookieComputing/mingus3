@@ -23,5 +23,9 @@ tag:
 test:
 	nosetests unittest/
 
+.PHONY: lint
+lint:
+	pylint3 mingus/ 
+
 .PHONY: release
 release: clean register upload tag
