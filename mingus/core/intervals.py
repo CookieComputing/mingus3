@@ -30,37 +30,39 @@ returns 'A'.
 This modules also contains other useful helper functions like measure,
 determine, invert, is_consonant and is_dissonant.
 """
-
+from mingus.core.mt_exceptions import NoteFormatError
 from . import keys
 from . import notes
 
 
-def interval(key, start_note, interval):
+def interval(key: str, start_note: str, interval_num: int) -> str:
     """Return the note found at the interval starting from start_note in the
     given key.
 
-    Raise a KeyError exception if start_note is not a valid note.
+    Raises:
+        KeyError: If start_note is not a valid note.
 
     Example:
     >>> interval('C', 'D', 1)
     'E'
     """
     if not notes.is_valid_note(start_note):
-        raise KeyError("The start note '%s' is not a valid note" % start_note)
+        raise KeyError("The start note '{}' is not a "
+                       "valid note".format(start_note))
     notes_in_key = keys.get_notes(key)
-    for n in notes_in_key:
-        if n[0] == start_note[0]:
-            index = notes_in_key.index(n)
-    return notes_in_key[(index + interval) % 7]
+    for note in notes_in_key:
+        if note[0] == start_note[0]:
+            index = notes_in_key.index(note)
+    # There are unique notes in a key
+    return notes_in_key[(index + interval_num) % 7]
 
 
-def unison(note, key=None):
-    """Return the unison of note.
+def unison(note: str, key: str = None) -> str:
+    """Return the unison of note. The key is not at all important,
+    but is here for consistency reasons only.
 
-    Raise a KeyError exception if the note is not found in the given key.
-
-    The key is not at all important, but is here for consistency reasons
-    only.
+    Raises:
+         KeyError: If the note is not found in the given key.
 
     Example:
     >>> unison('C')
@@ -69,10 +71,11 @@ def unison(note, key=None):
     return interval(key, note, 0)
 
 
-def second(note, key):
+def second(note: str, key: str) -> str:
     """Take the diatonic second of note in key.
 
-    Raise a KeyError exception if the note is not found in the given key.
+    Raises:
+        KeyError: If the note is not found in the given key.
 
     Examples:
     >>> second('E', 'C')
@@ -83,10 +86,11 @@ def second(note, key):
     return interval(key, note, 1)
 
 
-def third(note, key):
+def third(note: str, key: str) -> str:
     """Take the diatonic third of note in key.
 
-    Raise a KeyError exception if the note is not found in the given key.
+    Raise:
+        KeyError: If the note is not found in the given key.
 
     Examples:
     >>> third('E', 'C')
@@ -97,10 +101,11 @@ def third(note, key):
     return interval(key, note, 2)
 
 
-def fourth(note, key):
+def fourth(note: str, key: str) -> str:
     """Take the diatonic fourth of note in key.
 
-    Raise a KeyError exception if the note is not found in the given key.
+    Raises:
+        KeyError: If the note is not found in the given key.
 
     Examples:
     >>> fourth('E', 'C')
@@ -111,10 +116,11 @@ def fourth(note, key):
     return interval(key, note, 3)
 
 
-def fifth(note, key):
+def fifth(note: str, key: str) -> str:
     """Take the diatonic fifth of note in key.
 
-    Raise a KeyError exception if the note is not found in the given key.
+    Raises:
+        KeyError: If the note is not found in the given key.
 
     Examples:
     >>> fifth('E', 'C')
@@ -125,10 +131,11 @@ def fifth(note, key):
     return interval(key, note, 4)
 
 
-def sixth(note, key):
+def sixth(note: str, key: str) -> str:
     """Take the diatonic sixth of note in key.
 
-    Raise a KeyError exception if the note is not found in the given key.
+    Raises:
+        KeyError: If the note is not found in the given key.
 
     Examples:
     >>> sixth('E', 'C')
@@ -139,10 +146,11 @@ def sixth(note, key):
     return interval(key, note, 5)
 
 
-def seventh(note, key):
+def seventh(note: str, key: str) -> str:
     """Take the diatonic seventh of note in key.
 
-    Raise a KeyError exception if the note is not found in the given key.
+    Raises:
+        KeyError: If the note is not found in the given key.
 
     Examples:
     >>> seventh('E', 'C')
@@ -153,87 +161,157 @@ def seventh(note, key):
     return interval(key, note, 6)
 
 
-def minor_unison(note):
+def minor_unison(note: str) -> str:
+    """Returns the minor unison of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     return notes.diminish(note)
 
 
-def major_unison(note):
+def major_unison(note: str) -> str:
+    """Returns the major unison of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
+    if not notes.is_valid_note(note):
+        raise NoteFormatError("Invalid note: {}".format(note))
     return note
 
 
-def augmented_unison(note):
+def augmented_unison(note: str) -> str:
+    """Returns the augmented unison of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note"""
     return notes.augment(note)
 
 
-def minor_second(note):
+def minor_second(note: str) -> str:
+    """Returns the minor second of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     sec = second(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, sec, 1)
+    return __augment_or_diminish_until_the_interval_is_right(note, sec, 1)
 
 
-def major_second(note):
+def major_second(note: str) -> str:
+    """Returns the major second of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     sec = second(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, sec, 2)
+    return __augment_or_diminish_until_the_interval_is_right(note, sec, 2)
 
 
-def minor_third(note):
+def minor_third(note: str) -> str:
+    """Returns the minor third of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     trd = third(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, trd, 3)
+    return __augment_or_diminish_until_the_interval_is_right(note, trd, 3)
 
 
-def major_third(note):
+def major_third(note: str) -> str:
+    """Returns the major third of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     trd = third(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, trd, 4)
+    return __augment_or_diminish_until_the_interval_is_right(note, trd, 4)
 
 
-def minor_fourth(note):
+def minor_fourth(note: str) -> str:
+    """Returns the minor fourth of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     frt = fourth(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, frt, 4)
+    return __augment_or_diminish_until_the_interval_is_right(note, frt, 4)
 
 
-def major_fourth(note):
+def major_fourth(note: str) -> str:
+    """Returns the major fourth of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     frt = fourth(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, frt, 5)
+    return __augment_or_diminish_until_the_interval_is_right(note, frt, 5)
 
 
-def perfect_fourth(note):
+def perfect_fourth(note: str) -> str:
+    """Returns the perfect fourth of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     return major_fourth(note)
 
 
-def minor_fifth(note):
+def minor_fifth(note: str) -> str:
+    """Returns the minor fifth of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     fif = fifth(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, fif, 6)
+    return __augment_or_diminish_until_the_interval_is_right(note, fif, 6)
 
 
-def major_fifth(note):
+def major_fifth(note: str) -> str:
+    """Returns the major fifth of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     fif = fifth(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, fif, 7)
+    return __augment_or_diminish_until_the_interval_is_right(note, fif, 7)
 
 
-def perfect_fifth(note):
+def perfect_fifth(note: str) -> str:
+    """Returns the perfect fifth of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     return major_fifth(note)
 
 
-def minor_sixth(note):
+def minor_sixth(note: str) -> str:
+    """Returns the minor sixth of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     sth = sixth(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, sth, 8)
+    return __augment_or_diminish_until_the_interval_is_right(note, sth, 8)
 
 
-def major_sixth(note):
+def major_sixth(note: str) -> str:
+    """Returns the major sixth of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     sth = sixth(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, sth, 9)
+    return __augment_or_diminish_until_the_interval_is_right(note, sth, 9)
 
 
-def minor_seventh(note):
+def minor_seventh(note: str) -> str:
+    """Returns the minor seventh of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     sth = seventh(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, sth, 10)
+    return __augment_or_diminish_until_the_interval_is_right(note, sth, 10)
 
 
-def major_seventh(note):
+def major_seventh(note: str) -> str:
+    """Returns the major seventh of the note.
+
+    Raises:
+        NoteFormatError: If the note is an invalid note."""
     sth = seventh(note[0], 'C')
-    return augment_or_diminish_until_the_interval_is_right(note, sth, 11)
+    return __augment_or_diminish_until_the_interval_is_right(note, sth, 11)
 
 
-def get_interval(note, interval, key='C'):
+def get_interval(note: str, interval_num: int, key: str = 'C') -> str:
     """Return the note an interval (in half notes) away from the given note.
 
     This will produce mostly theoretical sound results, but you should use
@@ -251,7 +329,7 @@ def get_interval(note, interval, key='C'):
     key_notes = keys.get_notes(key)
     for x in key_notes:
         if x[0] == note[0]:
-            result = (intervals[key_notes.index(x)] + interval) % 12
+            result = (intervals[key_notes.index(x)] + interval_num) % 12
     if result in intervals:
         return key_notes[intervals.index(result)] + note[1:]
     else:
@@ -259,7 +337,7 @@ def get_interval(note, interval, key='C'):
                               + note[1:])
 
 
-def measure(note1, note2):
+def measure(note1: str, note2: str) -> int:
     """Return an integer in the range of 0-11, determining the half note steps
     between note1 and note2.
 
@@ -272,20 +350,20 @@ def measure(note1, note2):
     res = notes.note_to_int(note2) - notes.note_to_int(note1)
     if res < 0:
         return 12 - res * -1
-    else:
-        return res
+    return res
 
 
-def augment_or_diminish_until_the_interval_is_right(note1, note2, interval):
+def __augment_or_diminish_until_the_interval_is_right(note1: str, note2: str,
+                                                      interval_num: int) -> str:
     """A helper function for the minor and major functions.
 
     You should probably not use this directly.
     """
     cur = measure(note1, note2)
-    while cur != interval:
-        if cur > interval:
+    while cur != interval_num:
+        if cur > interval_num:
             note2 = notes.diminish(note2)
-        elif cur < interval:
+        elif cur < interval_num:
             note2 = notes.augment(note2)
         cur = measure(note1, note2)
 
@@ -318,20 +396,17 @@ def augment_or_diminish_until_the_interval_is_right(note1, note2, interval):
     return result
 
 
-def invert(interval):
+def invert(interval_notes: list) -> list:
     """Invert an interval.
 
     Example:
     >>> invert(['C', 'E'])
     ['E', 'C']
     """
-    interval.reverse()
-    res = list(interval)
-    interval.reverse()
-    return res
+    return list(reversed(interval_notes))
 
 
-def determine(note1, note2, shorthand=False):
+def determine(note1: str, note2: str, shorthand: bool = False) -> str:
     """Name the interval between note1 and note2.
 
     Examples:
@@ -438,7 +513,7 @@ def determine(note1, note2, shorthand=False):
         return 'b' * (maj - half_notes) + current[1]
 
 
-def from_shorthand(note, interval, up=True):
+def from_shorthand(note: str, interval_dist: str, up: bool = True) -> str:
     """Return the note on interval up or down.
 
     Examples:
@@ -451,7 +526,7 @@ def from_shorthand(note, interval, up=True):
     """
     # warning should be a valid note.
     if not notes.is_valid_note(note):
-        return False
+        return "False"
 
     # [shorthand, interval function up, interval function down]
     shorthand_lookup = [
@@ -468,18 +543,18 @@ def from_shorthand(note, interval, up=True):
     # function.
     val = False
     for shorthand in shorthand_lookup:
-        if shorthand[0] == interval[-1]:
+        if shorthand[0] == interval_dist[-1]:
             if up:
                 val = shorthand[1](note)
             else:
                 val = shorthand[2](note)
 
     # warning Last character in interval should be 1-7
-    if val == False:
-        return False
+    if not val:
+        return "False"
 
     # Collect accidentals
-    for x in interval:
+    for x in interval_dist:
         if x == '#':
             if up:
                 val = notes.augment(val)
@@ -494,7 +569,7 @@ def from_shorthand(note, interval, up=True):
             return val
 
 
-def is_consonant(note1, note2, include_fourths=True):
+def is_consonant(note1: str, note2: str, include_fourths: bool = True) -> bool:
     """Return True if the interval is consonant.
 
     A consonance is a harmony, chord, or interval considered stable, as
@@ -511,7 +586,8 @@ def is_consonant(note1, note2, include_fourths=True):
             is_imperfect_consonant(note1, note2))
 
 
-def is_perfect_consonant(note1, note2, include_fourths=True):
+def is_perfect_consonant(note1: str, note2: str, include_fourths: bool = True) \
+        -> bool:
     """Return True if the interval is a perfect consonant one.
 
     Perfect consonances are either unisons, perfect fourths or fifths, or
@@ -524,7 +600,7 @@ def is_perfect_consonant(note1, note2, include_fourths=True):
     return dhalf in [0, 7] or include_fourths and dhalf == 5
 
 
-def is_imperfect_consonant(note1, note2):
+def is_imperfect_consonant(note1: str, note2: str) -> bool:
     """Return True id the interval is an imperfect consonant one.
 
     Imperfect consonances are either minor or major thirds or minor or major
@@ -533,8 +609,8 @@ def is_imperfect_consonant(note1, note2):
     return measure(note1, note2) in [3, 4, 8, 9]
 
 
-def is_dissonant(note1, note2, include_fourths=False):
-    """Return True if the insterval is dissonant.
+def is_dissonant(note1: str, note2: str, include_fourths: bool = False) -> bool:
+    """Return True if the interval is dissonant.
 
     This function tests whether an interval is considered unstable,
     dissonant.

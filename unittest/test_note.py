@@ -1,13 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
 
-sys.path += ['../']
 from mingus.containers.note import Note
 import unittest
 from mingus.containers.mt_exceptions import NoteFormatError
 
-class test_Note(unittest.TestCase):
+
+class TestNote(unittest.TestCase):
 
     def setUp(self):
         self.c = Note('C', 5)
@@ -32,7 +31,7 @@ class test_Note(unittest.TestCase):
         self.assertTrue(self.c != self.c1)
         self.assertTrue(self.c == self.c)
         self.assertTrue(Note('C') == Note('C'))
-        self.assertTrue(self.c != None)
+        self.assertTrue(self.c is not None)
 
     def test_to_int(self):
         self.assertEqual(48, Note('C', 4))
@@ -116,4 +115,4 @@ class test_Note(unittest.TestCase):
 
 
 def suite():
-    return unittest.TestLoader().loadTestsFromTestCase(test_Note)
+    return unittest.TestLoader().loadTestsFromTestCase(TestNote)
