@@ -209,7 +209,7 @@ class Note:
         self.octave = int(value / 12) - 6
         return self
 
-    def to_shorthand(self):
+    def to_shorthand(self) -> str:
         """Give the traditional Helmhotz pitch notation.
 
         Examples:
@@ -235,7 +235,7 @@ class Note:
             offset -= 1
         return res
 
-    def from_shorthand(self, shorthand):
+    def from_shorthand(self, shorthand: str) -> 'Note':
         """Convert from traditional Helmhotz pitch notation.
 
         Examples:
@@ -263,7 +263,7 @@ class Note:
                 octave += 1
         return self.set_note(name, octave, {})
 
-    def __int__(self):
+    def __int__(self) -> int:
         """Return the current octave multiplied by twelve and add
         notes.note_to_int to it. This means a C-0 returns 0, C-1 returns 12,
         etc. This method allows you to use int() on Notes.
@@ -279,7 +279,7 @@ class Note:
                 res -= 1
         return res
 
-    def __lt__(self, other):
+    def __lt__(self, other: 'Note') -> bool:
         """Enable the comparing operators on Notes (>, <,  ==, !=, >= and <=).
 
         So we can sort() Intervals, etc.
@@ -294,24 +294,24 @@ class Note:
             return False
         return int(self) < int(other)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Note') -> bool:
         """Compare Notes for equality by comparing their note values."""
         if other is None:
             return False
         return int(self) == int(other)
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Note') -> bool:
         return not self == other
 
-    def __gt__(self, other):
+    def __gt__(self, other: 'Note') -> bool:
         return not (self < other or self == other)
 
-    def __le__(self, other):
+    def __le__(self, other: 'Note') -> bool:
         return self < other or self == other
 
-    def __ge__(self, other):
+    def __ge__(self, other: 'Note') -> bool:
         return not self < other
 
-    def __repr__(self):
+    def __repr__(self) -> 'str':
         """Return a helpful representation for printing Note classes."""
         return "'{}-{}'".format(self.name, self.octave)
