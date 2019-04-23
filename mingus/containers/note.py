@@ -48,6 +48,8 @@ class Note:
     velocity = 64
 
     def __init__(self, name='C', octave: int = 4, dynamics: dict = None):
+        # In this case, name either represents the letter note, or a note
+        # object itself
         if dynamics is None:
             dynamics = {}
         if isinstance(name, str):

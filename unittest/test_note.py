@@ -20,7 +20,7 @@ class TestNote(unittest.TestCase):
         self.assertTrue(self.c < self.b5)
         self.assertTrue(self.c1 < self.b5)
         self.assertTrue(self.c2 < self.b5)
-        self.assertTrue(self.c > self.b4, '%s %s' % (self.c, self.b4))
+        self.assertTrue(self.c > self.b4, '{} {}'.format(self.c, self.b4))
         self.assertTrue(self.c1 < self.b4)
         self.assertTrue(self.c2 < self.b4)
         self.assertTrue(self.b4 < self.b5)
