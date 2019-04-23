@@ -101,12 +101,12 @@ from . import keys
 from . import notes
 from .mt_exceptions import NoteFormatError, FormatError
 
-_triads_cache = {}
+_TRIADS_CACHE = {}
 
 # A cache for composed sevenths
-_sevenths_cache = {}
+_SEVENTHS_CACHE = {}
 
-chord_shorthand_meaning = {  # Triads Augmented chords Suspended chords Sevenths
+CHORD_SHORTHAND_MEANING = {  # Triads Augmented chords Suspended chords Sevenths
     # Sixths Ninths Elevenths Thirteenths Altered
     # Chords Special
     'm': ' minor triad',
@@ -163,7 +163,7 @@ chord_shorthand_meaning = {  # Triads Augmented chords Suspended chords Sevenths
 }
 
 
-def triad(note, key):
+def triad(note: str, key: str) -> list:
     """Return the triad on note in key as a list.
 
     Examples:
@@ -175,19 +175,19 @@ def triad(note, key):
     return [note, intervals.third(note, key), intervals.fifth(note, key)]
 
 
-def triads(key):
+def triads(key: str) -> list:
     """Return all the triads in key.
 
     Implemented using a cache.
     """
-    if key in _triads_cache:
-        return _triads_cache[key]
+    if key in _TRIADS_CACHE:
+        return _TRIADS_CACHE[key]
     res = [triad(x, key) for x in keys.get_notes(key)]
-    _triads_cache[key] = res
+    _TRIADS_CACHE[key] = res
     return res
 
 
-def major_triad(note):
+def major_triad(note: str) -> list:
     """Build a major triad on note.
 
     Example:
@@ -197,7 +197,7 @@ def major_triad(note):
     return [note, intervals.major_third(note), intervals.perfect_fifth(note)]
 
 
-def minor_triad(note):
+def minor_triad(note: str) -> list:
     """Build a minor triad on note.
 
     Example:
@@ -207,7 +207,7 @@ def minor_triad(note):
     return [note, intervals.minor_third(note), intervals.perfect_fifth(note)]
 
 
-def diminished_triad(note):
+def diminished_triad(note: str) -> list:
     """Build a diminished triad on note.
 
     Example:
@@ -217,7 +217,7 @@ def diminished_triad(note):
     return [note, intervals.minor_third(note), intervals.minor_fifth(note)]
 
 
-def augmented_triad(note):
+def augmented_triad(note: str) -> list:
     """Build an augmented triad on note.
 
     Example:
@@ -228,7 +228,7 @@ def augmented_triad(note):
             notes.augment(intervals.major_fifth(note))]
 
 
-def seventh(note, key):
+def seventh(note: str, key: str) -> list:
     """Return the seventh chord on note in key.
 
     Example:
@@ -238,16 +238,16 @@ def seventh(note, key):
     return triad(note, key) + [intervals.seventh(note, key)]
 
 
-def sevenths(key):
+def sevenths(key: str) -> list:
     """Return all the sevenths chords in key in a list."""
-    if key in _sevenths_cache:
-        return _sevenths_cache[key]
+    if key in _SEVENTHS_CACHE:
+        return _SEVENTHS_CACHE[key]
     res = [seventh(x, key) for x in keys.get_notes(key)]
-    _sevenths_cache[key] = res
+    _SEVENTHS_CACHE[key] = res
     return res
 
 
-def major_seventh(note):
+def major_seventh(note: str) -> list:
     """Build a major seventh on note.
 
     Example:
@@ -257,7 +257,7 @@ def major_seventh(note):
     return major_triad(note) + [intervals.major_seventh(note)]
 
 
-def minor_seventh(note):
+def minor_seventh(note: str) -> list:
     """Build a minor seventh on note.
 
     Example:
@@ -267,7 +267,7 @@ def minor_seventh(note):
     return minor_triad(note) + [intervals.minor_seventh(note)]
 
 
-def dominant_seventh(note):
+def dominant_seventh(note: str) -> list:
     """Build a dominant seventh on note.
 
     Example:
@@ -277,7 +277,7 @@ def dominant_seventh(note):
     return major_triad(note) + [intervals.minor_seventh(note)]
 
 
-def half_diminished_seventh(note):
+def half_diminished_seventh(note: str) -> list:
     """Build a half diminished seventh (also known as "minor seventh flat
     five") chord on note.
 
@@ -288,7 +288,7 @@ def half_diminished_seventh(note):
     return diminished_triad(note) + [intervals.minor_seventh(note)]
 
 
-def minor_seventh_flat_five(note):
+def minor_seventh_flat_five(note: str) -> list:
     """Build a minor seventh flat five (also known as "half diminished
     seventh") chord on note.
 
@@ -297,7 +297,7 @@ def minor_seventh_flat_five(note):
     return half_diminished_seventh(note)
 
 
-def diminished_seventh(note):
+def diminished_seventh(note: str) -> list:
     """Build a diminished seventh chord on note.
 
     Example:
@@ -308,7 +308,7 @@ def diminished_seventh(note):
             [notes.diminish(intervals.minor_seventh(note))])
 
 
-def minor_major_seventh(note):
+def minor_major_seventh(note: str) -> list:
     """Build a minor major seventh chord on note.
 
     Example:
@@ -318,7 +318,7 @@ def minor_major_seventh(note):
     return minor_triad(note) + [intervals.major_seventh(note)]
 
 
-def minor_sixth(note):
+def minor_sixth(note: str) -> list:
     """Build a minor sixth chord on note.
 
     Example:
@@ -328,7 +328,7 @@ def minor_sixth(note):
     return minor_triad(note) + [intervals.major_sixth(note)]
 
 
-def major_sixth(note):
+def major_sixth(note: str) -> list:
     """Build a major sixth chord on note.
 
     Example:
@@ -338,7 +338,7 @@ def major_sixth(note):
     return major_triad(note) + [intervals.major_sixth(note)]
 
 
-def dominant_sixth(note):
+def dominant_sixth(note: str) -> list:
     """Build the altered chord 6/7 on note.
 
     Example:
@@ -348,7 +348,7 @@ def dominant_sixth(note):
     return major_sixth(note) + [intervals.minor_seventh(note)]
 
 
-def sixth_ninth(note):
+def sixth_ninth(note: str) -> list:
     """Build the sixth/ninth chord on note.
 
     Example:
@@ -358,7 +358,7 @@ def sixth_ninth(note):
     return major_sixth(note) + [intervals.major_second(note)]
 
 
-def minor_ninth(note):
+def minor_ninth(note: str) -> list:
     """Build a minor ninth chord on note.
 
     Example:
@@ -368,7 +368,7 @@ def minor_ninth(note):
     return minor_seventh(note) + [intervals.major_second(note)]
 
 
-def major_ninth(note):
+def major_ninth(note: str) -> list:
     """Build a major ninth chord on note.
 
     Example:
@@ -378,7 +378,7 @@ def major_ninth(note):
     return major_seventh(note) + [intervals.major_second(note)]
 
 
-def dominant_ninth(note):
+def dominant_ninth(note: str) -> list:
     """Build a dominant ninth chord on note.
 
     Example:
@@ -388,7 +388,7 @@ def dominant_ninth(note):
     return dominant_seventh(note) + [intervals.major_second(note)]
 
 
-def dominant_flat_ninth(note):
+def dominant_flat_ninth(note: str) -> list:
     """Build a dominant flat ninth chord on note.
 
     Example:
@@ -400,7 +400,7 @@ def dominant_flat_ninth(note):
     return res
 
 
-def dominant_sharp_ninth(note):
+def dominant_sharp_ninth(note: str) -> list:
     """Build a dominant sharp ninth chord on note.
 
     Example:
@@ -412,7 +412,7 @@ def dominant_sharp_ninth(note):
     return res
 
 
-def eleventh(note):
+def eleventh(note: str) -> list:
     """Build an eleventh chord on note.
 
     Example:
@@ -423,7 +423,7 @@ def eleventh(note):
             intervals.perfect_fourth(note)]
 
 
-def minor_eleventh(note):
+def minor_eleventh(note: str) -> list:
     """Build a minor eleventh chord on note.
 
     Example:
@@ -433,7 +433,7 @@ def minor_eleventh(note):
     return minor_seventh(note) + [intervals.perfect_fourth(note)]
 
 
-def minor_thirteenth(note):
+def minor_thirteenth(note: str) -> list:
     """Build a minor thirteenth chord on note.
 
     Example:
@@ -443,7 +443,7 @@ def minor_thirteenth(note):
     return minor_ninth(note) + [intervals.major_sixth(note)]
 
 
-def major_thirteenth(note):
+def major_thirteenth(note: str) -> list:
     """Build a major thirteenth chord on note.
 
     Example:
@@ -453,7 +453,7 @@ def major_thirteenth(note):
     return major_ninth(note) + [intervals.major_sixth(note)]
 
 
-def dominant_thirteenth(note):
+def dominant_thirteenth(note: str) -> list:
     """Build a dominant thirteenth chord on note.
 
     Example:
@@ -463,12 +463,12 @@ def dominant_thirteenth(note):
     return dominant_ninth(note) + [intervals.major_sixth(note)]
 
 
-def suspended_triad(note):
+def suspended_triad(note: str) -> list:
     """An alias for suspended_fourth_triad."""
     return suspended_fourth_triad(note)
 
 
-def suspended_second_triad(note):
+def suspended_second_triad(note: str) -> list:
     """Build a suspended second triad on note.
 
     Example:
@@ -478,7 +478,7 @@ def suspended_second_triad(note):
     return [note, intervals.major_second(note), intervals.perfect_fifth(note)]
 
 
-def suspended_fourth_triad(note):
+def suspended_fourth_triad(note: str) -> list:
     """Build a suspended fourth triad on note.
 
     Example:
@@ -488,7 +488,7 @@ def suspended_fourth_triad(note):
     return [note, intervals.perfect_fourth(note), intervals.perfect_fifth(note)]
 
 
-def suspended_seventh(note):
+def suspended_seventh(note: str) -> list:
     """Build a suspended (flat) seventh chord on note.
 
     Example:
@@ -498,7 +498,7 @@ def suspended_seventh(note):
     return suspended_fourth_triad(note) + [intervals.minor_seventh(note)]
 
 
-def suspended_fourth_ninth(note):
+def suspended_fourth_ninth(note: str) -> list:
     """Build a suspended fourth flat ninth chord on note.
 
     Example:
@@ -508,7 +508,7 @@ def suspended_fourth_ninth(note):
     return suspended_fourth_triad(note) + [intervals.minor_second(note)]
 
 
-def augmented_major_seventh(note):
+def augmented_major_seventh(note: str) -> list:
     """Build an augmented major seventh chord on note.
 
     Example:
@@ -518,7 +518,7 @@ def augmented_major_seventh(note):
     return augmented_triad(note) + [intervals.major_seventh(note)]
 
 
-def augmented_minor_seventh(note):
+def augmented_minor_seventh(note: str) -> list:
     """Build an augmented minor seventh chord on note.
 
     Example:
@@ -528,7 +528,7 @@ def augmented_minor_seventh(note):
     return augmented_triad(note) + [intervals.minor_seventh(note)]
 
 
-def dominant_flat_five(note):
+def dominant_flat_five(note: str) -> list:
     """Build a dominant flat five chord on note.
 
     Example:
@@ -540,7 +540,7 @@ def dominant_flat_five(note):
     return res
 
 
-def lydian_dominant_seventh(note):
+def lydian_dominant_seventh(note: str) -> list:
     """Build the lydian dominant seventh (7#11) on note.
 
     Example:
@@ -551,7 +551,7 @@ def lydian_dominant_seventh(note):
             [notes.augment(intervals.perfect_fourth(note))])
 
 
-def hendrix_chord(note):
+def hendrix_chord(note: str) -> list:
     """Build the famous Hendrix chord (7b12).
 
     Example:
@@ -561,7 +561,7 @@ def hendrix_chord(note):
     return dominant_seventh(note) + [intervals.minor_third(note)]
 
 
-def tonic(key):
+def tonic(key: str) -> list:
     """Return the tonic chord in key.
 
     Examples:
@@ -573,12 +573,12 @@ def tonic(key):
     return triads(key)[0]
 
 
-def tonic7(key):
+def tonic7(key: str) -> list:
     """Return the seventh chord in key."""
     return sevenths(key)[0]
 
 
-def supertonic(key):
+def supertonic(key: str) -> list:
     """Return the supertonic chord in key.
 
     Example:
@@ -588,12 +588,12 @@ def supertonic(key):
     return triads(key)[1]
 
 
-def supertonic7(key):
+def supertonic7(key: str) -> list:
     """Return the supertonic seventh chord in key."""
     return sevenths(key)[1]
 
 
-def mediant(key):
+def mediant(key: str) -> list:
     """Return the mediant chord in key.
 
     Example:
@@ -603,12 +603,12 @@ def mediant(key):
     return triads(key)[2]
 
 
-def mediant7(key):
+def mediant7(key: str) -> list:
     """Returns the mediant seventh chord in key."""
     return sevenths(key)[2]
 
 
-def subdominant(key):
+def subdominant(key: str) -> list:
     """Return the subdominant chord in key.
 
     Example:
@@ -668,91 +668,91 @@ def subtonic7(key):
     return sevenths(key)[6]
 
 
-def I(key):
+def I(key):  # pylint: disable=invalid-name
     return tonic(key)
 
 
-def I7(key):
+def I7(key):  # pylint: disable=invalid-name
     return tonic7(key)
 
 
-def ii(key):
+def ii(key):  # pylint: disable=invalid-name
     return supertonic(key)
 
 
-def II(key):
+def II(key):  # pylint: disable=invalid-name
     return supertonic(key)
 
 
-def ii7(key):
+def ii7(key):  # pylint: disable=invalid-name
     return supertonic7(key)
 
 
-def II7(key):
+def II7(key):  # pylint: disable=invalid-name
     return supertonic7(key)
 
 
-def iii(key):
+def iii(key):  # pylint: disable=invalid-name
     return mediant(key)
 
 
-def III(key):
+def III(key):  # pylint: disable=invalid-name
     return mediant(key)
 
 
-def iii7(key):
+def iii7(key):  # pylint: disable=invalid-name
     return mediant7(key)
 
 
-def III7(key):
+def III7(key):  # pylint: disable=invalid-name
     return mediant7(key)
 
 
-def IV(key):
+def IV(key):  # pylint: disable=invalid-name
     return subdominant(key)
 
 
-def IV7(key):
+def IV7(key):  # pylint: disable=invalid-name
     return subdominant7(key)
 
 
-def V(key):
+def V(key):  # pylint: disable=invalid-name
     return dominant(key)
 
 
-def V7(key):
+def V7(key):  # pylint: disable=invalid-name
     return dominant7(key)
 
 
-def vi(key):
+def vi(key):  # pylint: disable=invalid-name
     return submediant(key)
 
 
-def VI(key):
+def VI(key):  # pylint: disable=invalid-name
     return submediant(key)
 
 
-def vi7(key):
+def vi7(key):  # pylint: disable=invalid-name
     return submediant7(key)
 
 
-def VI7(key):
+def VI7(key):  # pylint: disable=invalid-name
     return submediant7(key)
 
 
-def vii(key):
+def vii(key):  # pylint: disable=invalid-name
     return subtonic(key)
 
 
-def VII(key):
+def VII(key):  # pylint: disable=invalid-name
     return subtonic(key)
 
 
-def vii7(key):
+def vii7(key):  # pylint: disable=invalid-name
     return subtonic(key)
 
 
-def VII7(key):
+def VII7(key):  # pylint: disable=invalid-name
     return subtonic7(key)
 
 
@@ -802,42 +802,33 @@ def from_shorthand(shorthand_string, slash=None):
     Recognised abbreviations: the letters "m" and "M" in the following
     abbreviations can always be substituted by respectively "min", "mi" or
     "-" and "maj" or "ma".
-    
+
     Example:
     >>> from_shorthand('Amin7') == from_shorthand('Am7')
     True
 
     Triads: 'm', 'M' or '', 'dim'
-
     Sevenths: 'm7', 'M7', '7', 'm7b5', 'dim7', 'm/M7' or 'mM7'
-
     Augmented chords: 'aug' or '+', '7#5' or 'M7+5', 'M7+', 'm7+', '7+'
-
     Suspended chords: 'sus4', 'sus2', 'sus47' or '7sus4', 'sus', '11',
     'sus4b9' or 'susb9'
-
     Sixths: '6', 'm6', 'M6', '6/7' or '67', '6/9' or '69'
-
     Ninths: '9' or 'add9', 'M9', 'm9', '7b9', '7#9'
-
     Elevenths: '11' or 'add11', '7#11', 'm11'
-
     Thirteenths: '13' or 'add13', 'M13', 'm13'
-
     Altered chords: '7b5', '7b9', '7#9', '67' or '6/7'
-
     Special: '5', 'NC', 'hendrix'
     """
     # warning reduce??
-    if type(shorthand_string) == list:
+    if isinstance(shorthand_string, list):
         res = []
-        for x in shorthand_string:
-            res.append(from_shorthand(x))
+        for char in shorthand_string:
+            res.append(from_shorthand(char))
         return res
     if shorthand_string in ['NC', 'N.C.']:
         return []
 
-    # Shrink shorthand_string to a format recognised by chord_shorthand
+    # Shrink shorthand_string to a format recognised by CHORD_SHORTHAND
     shorthand_string = shorthand_string.replace('min', 'm')
     shorthand_string = shorthand_string.replace('mi', 'm')
     shorthand_string = shorthand_string.replace('-', 'm')
@@ -851,11 +842,9 @@ def from_shorthand(shorthand_string, slash=None):
     name = shorthand_string[0]
 
     # Look for accidentals
-    for n in shorthand_string[1:]:
-        if n == '#':
-            name += n
-        elif n == 'b':
-            name += n
+    for char in shorthand_string[1:]:
+        if char in ('#', 'b'):
+            name += char
         else:
             break
 
@@ -863,10 +852,10 @@ def from_shorthand(shorthand_string, slash=None):
     slash_index = -1
     s = 0
     rest_of_string = shorthand_string[len(name):]
-    for n in rest_of_string:
-        if n == '/':
+    for char in rest_of_string:
+        if char == '/':
             slash_index = s
-        elif n == '|':
+        elif char == '|':
             # Generate polychord
             return from_shorthand(shorthand_string[:len(name) + s],
                                   from_shorthand(
@@ -881,8 +870,8 @@ def from_shorthand(shorthand_string, slash=None):
     shorthand_start = len(name)
 
     short_chord = shorthand_string[shorthand_start:]
-    if short_chord in chord_shorthand:
-        res = chord_shorthand[short_chord](name)
+    if short_chord in CHORD_SHORTHAND:
+        res = CHORD_SHORTHAND[short_chord](name)
         if slash != None:
             # Add slashed chords
             if type(slash) == str:
@@ -1002,7 +991,7 @@ def determine_triad(triad, shorthand=False, no_inversions=False,
                 if shorthand:
                     res.append(r[2] + r[0])
                 else:
-                    res.append(r[2] + chord_shorthand_meaning[r[0]] +
+                    res.append(r[2] + CHORD_SHORTHAND_MEANING[r[0]] +
                                int_desc(r[1]))
             return res
 
@@ -1098,7 +1087,7 @@ def determine_seventh(seventh, shorthand=False, no_inversion=False,
                 if shorthand:
                     res.append(x[2] + x[0])
                 else:
-                    res.append(x[2] + chord_shorthand_meaning[x[0]]
+                    res.append(x[2] + CHORD_SHORTHAND_MEANING[x[0]]
                                + int_desc(x[1]))
             return res + polychords
 
@@ -1163,7 +1152,7 @@ def determine_extended_chord5(chord, shorthand=False, no_inversions=False,
                 if shorthand:
                     res.append(r[2] + r[0])
                 else:
-                    res.append(r[2] + chord_shorthand_meaning[r[0]]
+                    res.append(r[2] + CHORD_SHORTHAND_MEANING[r[0]]
                                + int_desc(r[1]))
             return res + polychords
 
@@ -1223,7 +1212,7 @@ def determine_extended_chord6(chord, shorthand=False, no_inversions=False,
                 if shorthand:
                     res.append(r[2] + r[0])
                 else:
-                    res.append(r[2] + chord_shorthand_meaning[r[0]] +
+                    res.append(r[2] + CHORD_SHORTHAND_MEANING[r[0]] +
                                int_desc(r[1]))
             return res + polychords
 
@@ -1268,7 +1257,7 @@ def determine_extended_chord7(chord, shorthand=False, no_inversions=False,
                 if shorthand:
                     res.append(r[2] + r[0])
                 else:
-                    res.append(r[2] + chord_shorthand_meaning[r[0]]
+                    res.append(r[2] + CHORD_SHORTHAND_MEANING[r[0]]
                                + int_desc(r[1]))
             return res + polychords
 
@@ -1289,7 +1278,7 @@ def int_desc(tries):
 
 def determine_polychords(chord, shorthand=False):
     """Determine the polychords in chord.
-    
+
     This function can handle anything from polychords based on two triads to
     6 note extended chords.
     """
@@ -1324,9 +1313,9 @@ def determine_polychords(chord, shorthand=False):
     return polychords
 
 
-# A dictionairy that can be used to present chord abbreviations. This
-# dictionairy is also used in from_shorthand()
-chord_shorthand = {  # Triads Augmented chords Suspended chords Sevenths Sixths
+# A dictionary that can be used to present chord abbreviations. This
+# dictionary is also used in from_shorthand()
+CHORD_SHORTHAND = {  # Triads Augmented chords Suspended chords Sevenths Sixths
     # Ninths Elevenths Thirteenths Altered Chords Special
     'm': minor_triad,
     'M': major_triad,
