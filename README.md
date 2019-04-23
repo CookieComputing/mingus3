@@ -5,7 +5,7 @@ This repository is a ported and revamped version of the discontinued project
 `mingus`, which is a Python-based music theory library. I had wanted a port 
 for mingus to Python 3, but all of the existing repositories that ported 
 to Python 3 were either unusable or unmaintained. I took it upon myself 
-to port the project andmanually adjust for any changes needed 
+to port the project and manually adjust for any changes needed 
 that weren't addressed by 2 to 3.
 
 As I mentioned before, this is also a continuation of the `mingus` project under
