@@ -113,6 +113,11 @@ class TestNote(unittest.TestCase):
         self.assertTrue(Note().from_shorthand("c'") == Note('C-4'))
         self.assertTrue(Note().from_shorthand("c''''''") == Note('C-9'))
 
+    def test_repr(self):
+        notes = ["C-0", "Bb-1", "C#-8", "Fb-4", "F#-5", "E-2", "Db-10"]
+        self.assertEqual(str(notes), str([Note(note) for note in notes]),
+                         "String representation should be equivalent")
+
 
 def suite():
     return unittest.TestLoader().loadTestsFromTestCase(TestNote)
