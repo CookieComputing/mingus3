@@ -21,7 +21,7 @@ for contributions:
 ### Issues
 Feel free to create any issues regarding your thoughts on the project, as well
 as any bugs you happen to discover. Regarding Windows and Mac OSX platforms,
-my own development environment is on Ubuntu 18.04, so I cannot guarantee that
+my own development environment is on Ubuntu 19.04, so I cannot guarantee that
 all of the features will work on the other target platforms, but I have ran
 the code once on Mac OS X immediately after successfully porting the project to 
 Python 3, and it seemed to have worked.
